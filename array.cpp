@@ -21,6 +21,12 @@ namespace hbutds{
         }
     };
 
+    struct B{
+        int data{0};
+        B() = default;
+        B(int b):data(b){}
+    };
+
     void test_access_and_size(){
         array<int, 3> arr;
         arr[0] = 0;
@@ -45,10 +51,25 @@ namespace hbutds{
         cout<<"@ Check the output to see if five-rule is good\n";
     }
 
+    void test_initializer(){
+        array<int, 4> arr{1, 2, 3};
+        assert(arr[0] == 1);
+        assert(arr[1] == 2);
+        assert(arr[2] == 3);
+        assert(arr[3] == 0);
+
+        array<B, 3> arrB{B(1), B(2)};
+        assert(arrB[0].data == 1);
+        assert(arrB[1].data == 2);
+        assert(arrB[2].data == 0);
+        cout<<"\n@ Initializer works\n";
+    }
+
     void array_works(){
         cout<<"@ Testing hbutds::array\n";
         test_access_and_size();
         test_rule_of_five();
+        test_initializer();
         cout<<"@ hbutds::array works!\n";
     }
 }
