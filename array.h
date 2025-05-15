@@ -1,8 +1,7 @@
 #ifndef HBUTDS_ARRAY_H
 #define HBUTDS_ARRAY_H
 
-#include<cassert>
-
+#include <cassert>
 namespace hbutds{
 
     template<typename T, unsigned int N>
@@ -10,6 +9,15 @@ namespace hbutds{
     private:
         T _data[N];
     public:
+        
+        //设定默认的五规则函数
+        array() = default;
+        ~array() = default;
+        array(const array& o) = default;
+        array(array&&) = default;
+        auto operator=(const array&) -> array& = default;
+        auto operator=(array&&) -> array& = default;
+
         auto operator[](const unsigned int) -> T&;
         auto size() const -> unsigned int;
     };
