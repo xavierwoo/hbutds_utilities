@@ -65,11 +65,29 @@ namespace hbutds{
         cout<<"\n@ Initializer works\n";
     }
 
+    void test_iterator(){
+        array<int, 3> arr{1, 2, 3};
+
+        int check{1};
+        for(auto it{arr.begin()}; it != arr.end(); ++it, ++check){
+            assert(check == *it);
+        }
+
+        check = 1;
+        for(int e : arr){
+            assert(e == check);
+            ++check;
+        }
+
+        cout<<"\n@ Iterator works\n";
+    }
+
     void array_works(){
         cout<<"@ Testing hbutds::array\n";
         test_access_and_size();
         test_rule_of_five();
         test_initializer();
+        test_iterator();
         cout<<"@ hbutds::array works!\n";
     }
 }
