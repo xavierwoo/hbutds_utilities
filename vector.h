@@ -22,6 +22,25 @@ namespace hbutds{
         auto size() const -> unsigned int; // 获取元素个数
         auto capacity() const -> unsigned int; // 获取表容量
         auto operator[](const unsigned int) -> T&; // 使用[]访问元素
+
+        struct iterator; // 迭代器结构体
+        auto begin() -> iterator; // 返回首元素迭代器
+        auto end() -> iterator; // 返回表终止位迭代器
+        auto insert(const iterator, const T&) -> iterator; // 插入元素
+        auto remove(const iterator) -> iterator; // 删除元素
+    };
+
+    template <typename T>
+    struct vector<T>::iterator{
+        friend vector;
+    private:
+        T* _ptr; // 指向元素的指针
+        iterator(T* p):_ptr(p){}; // 设置构造函数私有，防止私开迭代器
+    public:
+        auto operator++() -> iterator&; // 获得后继迭代器
+        auto operator*() -> T&; // 获得指向的元素
+        auto operator!=(const iterator) const -> bool; // 不等判定
+        auto operator+(int) -> iterator; // 获取相对位置的迭代器
     };
 
     void vector_works();
@@ -72,6 +91,35 @@ hbutds::vector<T>::~vector(){
         _data[i].~T();
     }
     std::free(_data);
+}
+
+
+/* 以下为迭代器相关函数 */
+
+template <typename T>
+auto hbutds::vector<T>::begin() -> iterator{
+    return iterator(_data);
+}
+
+template <typename T>
+auto hbutds::vector<T>::end() -> iterator{
+    return iterator(_data + _size);
+}
+
+template <typename T>
+auto hbutds::vector<T>::iterator::operator++() -> iterator&{
+    ++_ptr;
+    return *this;
+}
+
+template <typename T>
+auto hbutds::vector<T>::iterator::operator*() -> T&{
+    return *_ptr;
+}
+
+template <typename T>
+auto hbutds::vector<T>::iterator::operator!=(const iterator o) const -> bool{
+    return _ptr != o._ptr;
 }
 
 #endif
