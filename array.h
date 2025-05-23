@@ -28,7 +28,7 @@ namespace hbutds{
         //获取数组长度
         auto size() const -> unsigned int;
 
-        struct iterator;
+        struct iterator; // 迭代器结构体
         auto begin() -> iterator; // 获取首元素迭代器
         auto end() -> iterator; // 获取终止位置迭代器
     };
@@ -96,6 +96,5 @@ template<typename T, unsigned int N>
 auto hbutds::array<T, N>::size() const -> unsigned int{
     return N;
 }
-
 
 #endif
