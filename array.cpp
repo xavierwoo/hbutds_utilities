@@ -68,12 +68,12 @@ namespace hbutds{
     void test_iterator(){
         array<int, 3> arr{1, 2, 3};
 
-        int check{1};
-        for(auto it{arr.begin()}; it != arr.end(); ++it, ++check){
-            assert(check == *it);
+        int i{0};
+        for(auto it{arr.begin()}; it != arr.end(); ++it, ++i){
+            assert(arr[i] == *it);
         }
 
-        check = 1;
+        int check{1};
         for(int e : arr){
             assert(e == check);
             ++check;
