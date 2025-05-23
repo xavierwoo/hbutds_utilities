@@ -23,12 +23,20 @@ namespace hbutds{
         for(int e : vec){
             cout<<format("{} ", e);
         }
-        cout<<"\nCheck the output to see if iterator works\n";
+        cout<<"\nCheck the output to see if for each works\n";
+    }
+
+    void test_vector_iterator_calculation(){
+        vector<int> vec{1, 2, 3, 4, 5};
+        assert(*(vec.begin() + 1) == vec[1]);
+        assert(*(vec.begin() + 3) == vec[3]);
+        cout<<"@ Iterator calculation works\n";
     }
 
     void vector_works(){
         test_vector_initializer();
         test_vector_iterator();
+        test_vector_iterator_calculation();
         cout<<"@ hbutds::vector works\n";
     }
 }

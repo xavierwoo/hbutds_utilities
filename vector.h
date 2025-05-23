@@ -122,4 +122,9 @@ auto hbutds::vector<T>::iterator::operator!=(const iterator o) const -> bool{
     return _ptr != o._ptr;
 }
 
+template <typename T>
+auto hbutds::vector<T>::iterator::operator+(const int offset) -> iterator{
+    return iterator(_ptr + offset);
+}
+
 #endif
