@@ -31,10 +31,10 @@ namespace hbutds{
         void push_back(const T&); //在尾部插入元素
 
         //五规则函数
-        vector(const vector&);
-        vector(vector&&);
-        auto operator=(const vector&) -> vector&;
-        auto operator=(vector&&) -> vector&;
+        vector(const vector&); // 拷贝构造函数
+        vector(vector&&);      // 移动拷贝构造函数
+        auto operator=(const vector&) -> vector&; // 赋值操作符
+        auto operator=(vector&&) -> vector&;      // 移动赋值操作符
     };
 
     template <typename T>
@@ -98,6 +98,9 @@ hbutds::vector<T>::~vector(){
         _data[i].~T();
     }
     std::free(_data);
+    _data = nullptr;
+    _size = 0;
+    _capacity = 0;
 }
 
 
@@ -175,13 +178,55 @@ auto hbutds::vector<T>::erase(const iterator it) -> iterator{
 }
 
 
-
-
 /* 以下为五规则相关函数 */
 
-// template <typename T>
-// hbutds::vector<T>::vector(const vector& o){
-//     reserve(o.size());
-//     for()
-// }
+template <typename T>
+hbutds::vector<T>::vector(const vector& o){
+    reserve(o.size());
+    for(int i{0}; i<o._size; ++i){
+        push_back(o._data[i]);
+    }
+}
+
+template <typename T>
+hbutds::vector<T>::vector(vector&& o):
+        _data(o._data), 
+        _size(o._size),
+        _capacity(o._capacity){
+
+    o._data = nullptr;
+    o._size = 0;
+    o._capacity = 0;
+}
+
+template <typename T>
+auto hbutds::vector<T>::operator=(const vector& o) -> vector&{
+    for(int i{0}; i<_size; ++i){ // 删除当前表上的所有元素
+        _data[i].~T();
+    }
+    _size = 0;
+    if(_capacity < o._size){ // 如果容量比被拷贝表小则扩容
+        reserve(o._size);
+    }
+    for(int i{0}; i<o._size; ++i){ // 依次插入元素
+        push_back(o._data[i]);
+    }
+    return *this;
+}
+
+template <typename T>
+auto hbutds::vector<T>::operator=(vector&& o) -> vector& {
+    for(int i{0}; i<_size; ++i){
+        _data[i].~T();
+    }
+    std::free(_data);
+    _data = o._data;
+    _size = o._size;
+    _capacity = o._capacity;
+    o._data = nullptr;
+    o._size = 0;
+    o._capacity = 0;
+    return *this;
+}
+
 #endif

@@ -4,6 +4,22 @@
 
 namespace hbutds{
     using std::cout, std::format;
+
+    struct A{
+        A(){cout<<"Default constructor\n";}
+        ~A(){cout<<"Destructor\n";}
+        A(const A&){cout<<"Copy constructor\n";}
+        A(A&&){cout<<"Move copy constructor\n";}
+        auto operator=(const A&)->A&{
+            cout<<"= operator\n";
+            return *this;
+        }
+        auto operator=(A&&) ->A&{
+            cout<<"Move = operator\n";
+            return *this;
+        }
+    };
+
     void test_vector_initializer(){
         vector<int> vec{1, 2, 3};
         assert(vec.size() == 3);
@@ -82,6 +98,48 @@ namespace hbutds{
         cout<<"@ Erase works\n";
     }
 
+    void test_vector_rule_five(){
+        vector<A> vec0{A(), A(), A()}; // 三次默认构造，三次拷贝构造，三次析构
+        vector<A> vec1(vec0);  // 三次拷贝构造
+        vector<A> vec2(std::move(vec1)); // 没有输出
+        vector<A> vec3;
+        vec2 = vec0; // 三次析构 三次拷贝构造
+        vec2 = std::move(vec0); // 三次析构
+        cout<<"Check the output to see if rule of five works\n";
+
+        vector<int> vi1{1,2,3};
+        vector<int> vi2{vi1};
+        assert(vi1.size() == 3);
+        assert(vi2.size() == 3);
+        assert(vi2[0] == 1);
+        assert(vi2[1] == 2);
+        assert(vi2[2] == 3);
+        vector<int> vi3(std::move(vi2));
+        assert(vi2.size() == 0);
+        assert(vi3.size() == 3);
+        assert(vi3[0] == 1);
+        assert(vi3[1] == 2);
+        assert(vi3[2] == 3);
+
+        vector<int> vi4;
+        vi4 = vi3;
+        assert(vi3.size() == 3);
+        assert(vi4.size() == 3);
+        assert(vi4[0] == 1);
+        assert(vi4[1] == 2);
+        assert(vi4[2] == 3);
+
+        vi3.push_back(20);
+        vi3 = std::move(vi4);
+        assert(vi3.size() == 3);
+        assert(vi4.size() == 0);
+        assert(vi3[0] == 1);
+        assert(vi3[1] == 2);
+        assert(vi3[2] == 3);
+
+        cout<<"@ rule of five good\n";
+    }
+
     void vector_works(){
         test_vector_initializer();
         test_vector_iterator();
@@ -89,6 +147,7 @@ namespace hbutds{
         test_vector_insert();
         test_vector_push_back();
         test_vector_erase();
+        test_vector_rule_five();
         
         cout<<"@ hbutds::vector works\n";
     }
