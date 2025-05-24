@@ -27,7 +27,7 @@ namespace hbutds{
         auto begin() -> iterator; // 返回首元素迭代器
         auto end() -> iterator; // 返回表终止位迭代器
         auto insert(const iterator, const T&) -> iterator; // 插入元素
-        auto remove(const iterator) -> iterator; // 删除元素
+        auto erase(const iterator) -> iterator; // 删除元素
     };
 
     template <typename T>
@@ -125,6 +125,30 @@ auto hbutds::vector<T>::iterator::operator!=(const iterator o) const -> bool{
 template <typename T>
 auto hbutds::vector<T>::iterator::operator+(const int offset) -> iterator{
     return iterator(_ptr + offset);
+}
+
+template <typename T>
+auto hbutds::vector<T>::insert(const iterator it, const T& new_e) -> iterator{
+    auto pos {it._ptr - _data}; // 需要先计算pos，扩容后it会失效
+    assert(pos >= 0 && pos <= _size);
+
+    if(_capacity == 0) reserve(1); // 模拟std::vector的扩容模式
+    else if (_size == _capacity) reserve(_size * 2);
+
+    ++_size;
+
+    for(auto i{_size - 1}; i>pos; --i){ // 从后往前依次移动元素
+        new (&_data[i]) T(std::move(_data[i-1]));
+    }
+    new (&_data[pos]) T(new_e); // 将新元素放在空出的位置上
+    
+    return iterator(_data + pos);
+}
+
+template <typename T>
+auto hbutds::vector<T>::erase(const iterator it) -> iterator{
+    //TODO: 暂时未实现
+    return iterator(nullptr);
 }
 
 #endif

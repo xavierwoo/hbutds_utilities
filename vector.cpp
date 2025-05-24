@@ -16,14 +16,34 @@ namespace hbutds{
 
     void test_vector_iterator(){
         vector<int> vec{1, 2, 3};
-        for(auto it{vec.begin()}; it != vec.end(); ++it){
-            cout<<format("{} ", *it);
+        int i{0};
+        for(auto it{vec.begin()}; it != vec.end(); ++i, ++it){
+            assert(*it == vec[i]);
         }
-        cout<<"\nCheck the output to see if iterator works\n";
+        cout<<"@ Iterator works\n";
         for(int e : vec){
             cout<<format("{} ", e);
         }
         cout<<"\nCheck the output to see if for each works\n";
+    }
+
+    void test_vector_insert(){
+        vector<int> vec{1, 2, 3};
+        auto it1 {vec.insert(vec.begin(), 0)};
+        auto it2 {vec.insert(vec.begin() + 2, 9)};
+        auto it3 {vec.insert(vec.end(), 10)};
+
+        assert(*it1 == 0);
+        assert(*it2 == 9);
+
+        assert(vec.size() == 6);
+        assert(vec[0] == 0);
+        assert(vec[1] == 1);
+        assert(vec[2] == 9);
+        assert(vec[3] == 2);
+        assert(vec[4] == 3);
+        assert(vec[5] == 10);
+        cout<<"@ Insertion works\n";
     }
 
     void test_vector_iterator_calculation(){
@@ -37,6 +57,7 @@ namespace hbutds{
         test_vector_initializer();
         test_vector_iterator();
         test_vector_iterator_calculation();
+        test_vector_insert();
         cout<<"@ hbutds::vector works\n";
     }
 }
