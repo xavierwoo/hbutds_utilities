@@ -28,6 +28,13 @@ namespace hbutds{
         auto end() -> iterator; // 返回表终止位迭代器
         auto insert(const iterator, const T&) -> iterator; // 插入元素
         auto erase(const iterator) -> iterator; // 删除元素
+        void push_back(const T&); //在尾部插入元素
+
+        //五规则函数
+        vector(const vector&);
+        vector(vector&&);
+        auto operator=(const vector&) -> vector&;
+        auto operator=(vector&&) -> vector&;
     };
 
     template <typename T>
@@ -146,6 +153,11 @@ auto hbutds::vector<T>::insert(const iterator it, const T& new_e) -> iterator{
 }
 
 template <typename T>
+void hbutds::vector<T>::push_back(const T& new_e){
+    insert(end(), new_e);
+}
+
+template <typename T>
 auto hbutds::vector<T>::erase(const iterator it) -> iterator{
     auto pos {it._ptr - _data}; // 计算删除位置pos
     assert(pos >= 0 && pos < _size); 
@@ -162,4 +174,14 @@ auto hbutds::vector<T>::erase(const iterator it) -> iterator{
     return iterator(_data + pos);
 }
 
+
+
+
+/* 以下为五规则相关函数 */
+
+// template <typename T>
+// hbutds::vector<T>::vector(const vector& o){
+//     reserve(o.size());
+//     for()
+// }
 #endif
