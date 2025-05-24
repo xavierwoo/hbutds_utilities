@@ -8,7 +8,7 @@ namespace hbutds{
 
     struct A{
         A(){cout<<"Default constructor\n";}
-        ~A(){cout<<"Deconstructor\n";}
+        ~A(){cout<<"Destructor\n";}
         A(const A&){cout<<"Copy constructor\n";}
         A(A&&){cout<<"Move copy constructor\n";}
         auto operator=(const A&)->A&{
