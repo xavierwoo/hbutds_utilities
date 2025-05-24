@@ -147,8 +147,19 @@ auto hbutds::vector<T>::insert(const iterator it, const T& new_e) -> iterator{
 
 template <typename T>
 auto hbutds::vector<T>::erase(const iterator it) -> iterator{
-    //TODO: 暂时未实现
-    return iterator(nullptr);
+    auto pos {it._ptr - _data}; // 计算删除位置pos
+    assert(pos >= 0 && pos < _size); 
+
+    if(pos < _size - 1){
+        for(auto i{pos}; i<_size - 1; ++i){ // 从前往后依次移动元素
+            _data[i] = std::move(_data[i+1]);
+        }
+    }else{ // 如果是删除尾元素，需要手动调用它的析构函数防止内存泄露
+        _data[pos].~T();
+    }
+
+    --_size;
+    return iterator(_data + pos);
 }
 
 #endif
