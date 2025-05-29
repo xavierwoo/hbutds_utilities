@@ -19,7 +19,7 @@ namespace hbutds{
         auto begin() -> iterator; // 首元素迭代器
         auto end() -> iterator; // 终止位迭代器
         void push_front(const T&); // 在链表头插入元素
-        // auto insert_after(const iterator, const T&) -> iterator;
+        auto insert_after(const iterator, const T&) -> iterator;
         // auto erase_after(const iterator) -> iterator;
         // void reverse(); // 转置
     };
@@ -63,6 +63,16 @@ void hbutds::forward_list<T>::push_front(const T& new_e){
     auto new_node {new Node(new_e)};
     new_node->next = _head->next;
     _head->next = new_node;
+}
+
+template <typename T>
+auto hbutds::forward_list<T>::insert_after(
+        const iterator after_it, const T& new_e
+) -> iterator {
+    auto new_node {new Node(new_e)};
+    new_node->next = after_it._curr->next;
+    after_it._curr->next = new_node;
+    return iterator(new_node);
 }
 
 
