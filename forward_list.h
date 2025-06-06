@@ -82,9 +82,10 @@ auto hbutds::forward_list<T>::erase_after(
         const iterator after_it
 ) -> iterator {
     auto del_node {after_it._curr->next};
-    after_it._curr->next = del_node->next;
+    auto after_node{after_it._curr};
+    after_node->next = del_node->next;
     delete del_node;
-    return iterator(after_it._curr->next);
+    return iterator(after_node->next);
 }
 
 template <typename T>
