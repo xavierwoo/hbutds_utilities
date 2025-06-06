@@ -14,6 +14,7 @@ namespace hbutds{
     public:
         struct iterator;
         forward_list(): _head(new Node()){};
+        ~forward_list();
         // forward_list(const std::initializer_list<T>&); // 初始化列表构造函数
 
         auto begin() -> iterator; // 首元素迭代器
@@ -85,6 +86,15 @@ auto hbutds::forward_list<T>::erase_after(
     return iterator(after_it._curr->next);
 }
 
+template <typename T>
+hbutds::forward_list<T>::~forward_list(){
+    auto curr {_head};
+    while(curr != nullptr){
+        auto tmp {curr};
+        curr = curr->next;
+        delete tmp;
+    }
+}
 
 /*以下是迭代器相关实现*/
 
