@@ -71,8 +71,9 @@ auto hbutds::forward_list<T>::insert_after(
         const iterator after_it, const T& new_e
 ) -> iterator {
     auto new_node {new Node(new_e)};
-    new_node->next = after_it._curr->next;
-    after_it._curr->next = new_node;
+    auto after_node {after_it._curr};
+    new_node->next = after_node->next;
+    after_node->next = new_node;
     return iterator(new_node);
 }
 
