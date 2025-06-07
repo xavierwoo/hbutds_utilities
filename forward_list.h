@@ -15,7 +15,7 @@ namespace hbutds{
         struct iterator;
         forward_list(): _head(new Node()){};
         ~forward_list();
-        // forward_list(const std::initializer_list<T>&); // 初始化列表构造函数
+        forward_list(const std::initializer_list<T>&); // 初始化列表构造函数
 
         auto begin() -> iterator; // 首元素迭代器
         auto end() -> iterator; // 终止位迭代器
@@ -100,6 +100,16 @@ void hbutds::forward_list<T>::reverse(){
     _head->next = tmp.next;
 }
 
+template <typename T>
+hbutds::forward_list<T>::forward_list(
+        const std::initializer_list<T>& l
+): _head(new Node()){
+    auto curr {_head};
+    for(auto e : l){
+        curr->next = new Node(e);
+        curr = curr->next;
+    }
+}
 
 template <typename T>
 hbutds::forward_list<T>::~forward_list(){

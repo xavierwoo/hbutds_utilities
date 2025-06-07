@@ -68,11 +68,25 @@ namespace hbutds{
         cout<<"@ reverse works\n";
     }
 
+    void test_forward_list_initializer(){
+        hbutds::forward_list<int> lst {1,2,3};
+        auto it {lst.begin()};
+        assert(*it == 1);
+        ++it;
+        assert(*it == 2);
+        ++it;
+        assert(*it == 3);
+        ++it;
+        assert( ! (it != lst.end()));
+        cout<<"@ initializer works\n";
+    }
+
     void forward_list_works(){
         test_forward_list_push_front();
         test_forward_list_insert_after();
         test_forward_list_erase_after();
         test_forward_list_reverse();
+        test_forward_list_initializer();
     }
 
 }
