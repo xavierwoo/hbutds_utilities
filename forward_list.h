@@ -14,8 +14,14 @@ namespace hbutds{
     public:
         struct iterator;
         forward_list(): _head(new Node()){};
-        ~forward_list();
         forward_list(const std::initializer_list<T>&); // 初始化列表构造函数
+
+        // 五规则函数
+        ~forward_list();
+        forward_list(const forward_list<T>&); // 拷贝构造函数
+        forward_list(forward_list<T>&&); // 移动拷贝构造函数
+        auto operator=(const forward_list<T>&) -> forward_list<T>&; //赋值操作符
+        auto operator=(forward_list<T>&&) -> forward_list<T>&; // 移动赋值操作符
 
         auto begin() -> iterator; // 首元素迭代器
         auto end() -> iterator; // 终止位迭代器
@@ -111,6 +117,9 @@ hbutds::forward_list<T>::forward_list(
     }
 }
 
+
+/*五规则函数*/
+
 template <typename T>
 hbutds::forward_list<T>::~forward_list(){
     auto curr {_head};
@@ -121,6 +130,69 @@ hbutds::forward_list<T>::~forward_list(){
     }
 }
 
+template <typename T>
+hbutds::forward_list<T>::forward_list(
+        const forward_list<T>& o
+): _head(new Node()){
+    auto curr {_head};
+    auto copy_from {o._head->next};
+    while(copy_from != nullptr){
+        curr->next = new Node(copy_from->data);
+        curr = curr->next;
+        copy_from = copy_from->next;
+    }
+}
+
+template <typename T>
+hbutds::forward_list<T>::forward_list(
+        forward_list<T>&& o
+): _head(new Node()){
+    _head->next = o._head->next;
+    o._head->next = nullptr;
+}
+
+template <typename T>
+auto hbutds::forward_list<T>::operator=(
+       const forward_list<T>& o 
+) -> forward_list<T>& {
+
+    // 首先删除头节点以外的其他节点
+    auto curr {_head->next};
+    while(curr != nullptr){
+        auto tmp {curr};
+        curr = curr->next;
+        delete tmp;
+    }
+
+    // 依次拷贝节点
+    curr =_head;
+    auto copy_from {o._head->next};
+    while(copy_from != nullptr){
+        curr->next = new Node(copy_from->data);
+        curr = curr->next;
+        copy_from = copy_from->next;
+    }
+    return *this;
+}
+
+template <typename T>
+auto hbutds::forward_list<T>::operator=(
+       forward_list<T>&& o 
+) -> forward_list<T>& {
+
+    // 首先删除头节点以外的其他节点
+    auto curr {_head->next};
+    while(curr != nullptr){
+        auto tmp {curr};
+        curr = curr->next;
+        delete tmp;
+    }
+
+    // 夺取源链表的节点
+    _head->next = o._head->next;
+    o._head->next = nullptr;
+    return *this;
+}
 
 /*以下是迭代器相关实现*/
 
