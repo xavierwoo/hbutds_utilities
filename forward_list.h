@@ -22,7 +22,7 @@ namespace hbutds{
         void push_front(const T&); // 在链表头插入元素
         auto insert_after(const iterator, const T&) -> iterator;
         auto erase_after(const iterator) -> iterator;
-        // void reverse(); // 转置
+        void reverse(); // 转置
     };
 
     template <typename T>
@@ -89,6 +89,19 @@ auto hbutds::forward_list<T>::erase_after(
 }
 
 template <typename T>
+void hbutds::forward_list<T>::reverse(){
+    Node tmp;
+    while(_head->next != nullptr){
+        auto curr {_head->next};
+        _head->next = curr->next;
+        curr->next = tmp.next;
+        tmp.next = curr;
+    }
+    _head->next = tmp.next;
+}
+
+
+template <typename T>
 hbutds::forward_list<T>::~forward_list(){
     auto curr {_head};
     while(curr != nullptr){
@@ -97,6 +110,7 @@ hbutds::forward_list<T>::~forward_list(){
         delete tmp;
     }
 }
+
 
 /*以下是迭代器相关实现*/
 
