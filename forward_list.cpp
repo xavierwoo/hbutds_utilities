@@ -160,6 +160,7 @@ namespace hbutds{
         test_forward_list_move_copy();
         test_forward_list_assignment();
         test_forward_list_move_assignment();
+        cout<<"hbutds::forward_list works!\n";
     }
 
 }
