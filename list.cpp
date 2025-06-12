@@ -74,6 +74,63 @@ namespace hbutds{
         cout<<"@ copy works\n";
     }
 
+    void test_list_move_copy(){
+        hbutds::list<int> lst1 {1,2,3}; 
+        hbutds::list<int> lst2 {std::move(lst1)};
+
+        assert(!(lst1.begin() != lst1.end()));
+        auto it {lst2.begin()};
+        assert(*it == 1);
+        ++it;
+        assert(*it == 2);
+        ++it;
+        assert(*it == 3);
+        ++it;
+        assert( ! (it != lst2.end()));
+        cout<<"@ move copy works\n"; 
+    }
+
+    void test_list_assignment(){
+        hbutds::list<int> lst1 {1,2,3}; 
+        hbutds::list<int> lst2 {4,5,6}; 
+        lst2 = lst1;
+
+        //测试两个链表是否相等
+        for(auto it1{lst1.begin()}, it2{lst2.begin()}; it1 != lst1.end(); ++it1, ++it2){
+            assert(*it1 == *it2);
+        }
+
+        //测试元素是否正确
+        auto it {lst2.begin()};
+        assert(*it == 1);
+        ++it;
+        assert(*it == 2);
+        ++it;
+        assert(*it == 3);
+        ++it;
+        assert( ! (it != lst2.end()));
+        cout<<"@ assignment works\n"; 
+    }
+
+    void test_list_move_assignment(){
+        hbutds::list<int> lst1 {1,2,3}; 
+        hbutds::list<int> lst2 {4,5,6}; 
+        lst2 = std::move(lst1);
+
+        assert(!(lst1.begin() != lst1.end()));
+
+        //测试元素是否正确
+        auto it {lst2.begin()};
+        assert(*it == 1);
+        ++it;
+        assert(*it == 2);
+        ++it;
+        assert(*it == 3);
+        ++it;
+        assert( ! (it != lst2.end()));
+        cout<<"@ move assignment works\n"; 
+    }
+
     void list_works(){
         test_list_declare();
         test_list_insert();
@@ -81,6 +138,9 @@ namespace hbutds{
         test_list_erase();
         test_list_initializer();
         test_list_copy_constructor();
+        test_list_move_copy();
+        test_list_assignment();
+        test_list_move_assignment();
         cout<<"hbutds::list works!\n";
     }
 } 

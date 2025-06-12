@@ -151,7 +151,46 @@ hbutds::list<T>::list(const list<T>& o){
     }
 }
 
+template <typename T>
+hbutds::list<T>::list(list<T>&& o){
+    _head = new Node();
+    _tail = new Node();
+    
+    _head->next = o._head->next;
+    o._head->next->prev = _head;
+    o._head->next = o._tail;
 
+    _tail->prev = o._tail->prev;
+    o._tail->prev->next = _tail;
+    o._tail->prev = o._head;
+}
+
+template <typename T>
+auto hbutds::list<T>::operator=(const list<T>& o){
+    while(_head->next != _tail){ // 删除所有元素
+        erase(begin());
+    }
+    auto curr {o._head->next};
+    while(curr != o._tail){
+        push_back(curr->data);
+        curr = curr->next;
+    } 
+}
+
+template <typename T>
+auto hbutds::list<T>::operator=(list<T>&& o){
+    while(_head->next != _tail){ // 删除所有元素
+        erase(begin());
+    }
+    
+    _head->next = o._head->next;
+    o._head->next->prev = _head;
+    o._head->next = o._tail;
+
+    _tail->prev = o._tail->prev;
+    o._tail->prev->next = _tail;
+    o._tail->prev = o._head;
+}
 
 /* 以下是迭代器相关函数 */
 
