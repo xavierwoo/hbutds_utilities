@@ -8,5 +8,7 @@ add_library(hbutds_utilities STATIC
     vector.cpp
     forward_list.h
     forward_list.cpp
+    list.h
+    list.cpp
 )
 target_include_directories(hbutds_utilities PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
