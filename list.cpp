@@ -27,10 +27,7 @@ namespace hbutds{
     }
 
     void test_list_iterator(){
-        hbutds::list<int> lst;
-        lst.push_back(0);
-        lst.push_back(1);
-        lst.push_back(2);
+        hbutds::list<int> lst{0,1,2};
         
         auto it{lst.begin()};
         assert(*it == 0);
@@ -46,11 +43,7 @@ namespace hbutds{
     }
 
     void test_list_erase(){
-        hbutds::list<int> lst;
-        lst.push_back(0);
-        lst.push_back(1);
-        lst.push_back(2);
-        
+        hbutds::list<int> lst {0,1,2};
         auto it {lst.erase(lst.begin())};
         assert(*it == 1);
         it = lst.erase(it);
@@ -71,12 +64,23 @@ namespace hbutds{
         cout<<"@ initializer works\n";
     }
 
+    void test_list_copy_constructor(){
+        hbutds::list<int> lst1 {1,2,3}; 
+        hbutds::list<int> lst2 {lst1};
+
+        for(auto it1{lst1.begin()}, it2{lst2.begin()}; it1 != lst1.end(); ++it1, ++it2){
+            assert(*it1 == *it2);
+        }
+        cout<<"@ copy works\n";
+    }
+
     void list_works(){
         test_list_declare();
         test_list_insert();
         test_list_iterator();
         test_list_erase();
         test_list_initializer();
+        test_list_copy_constructor();
         cout<<"hbutds::list works!\n";
     }
 } 

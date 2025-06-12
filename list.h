@@ -23,6 +23,13 @@ namespace hbutds{
         auto insert(const iterator, const T&) -> iterator; // 插入元素
         auto erase(const iterator) -> iterator; // 删除元素
         void push_back(const T&); // 在链表尾部插入元素
+
+        //五规则函数
+        ~list();
+        list(const list<T>&); // 拷贝构造函数
+        list(list<T>&&); // 移动拷贝构造函数
+        auto operator=(const list<T>&); // 赋值操作符
+        auto operator=(list<T>&&); // 移动赋值操作符
     };
 
     template <typename T>
@@ -117,6 +124,34 @@ auto hbutds::list<T>::erase(const iterator it) -> iterator {
 
     return iterator(next_node);
 }
+
+
+/* 五规则函数 */
+
+template <typename T>
+hbutds::list<T>::~list(){
+    auto curr {_head};
+    while(curr != nullptr){
+        auto tmp {curr};
+        curr = curr->next;
+        delete tmp;
+    }
+}
+
+template <typename T>
+hbutds::list<T>::list(const list<T>& o){
+    _head = new Node();
+    _tail = new Node();
+    _head->next = _tail;
+    _tail->prev = _head;
+    auto curr {o._head->next};
+    while(curr != o._tail){
+        push_back(curr->data);
+        curr = curr->next;
+    }
+}
+
+
 
 /* 以下是迭代器相关函数 */
 
