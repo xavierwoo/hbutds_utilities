@@ -2,6 +2,7 @@
 #define HBUTDS_LIST_H
 
 #include <cassert>
+#include <utility>
 
 namespace hbutds{
 
@@ -15,6 +16,7 @@ namespace hbutds{
     public:
         struct iterator; // 迭代器
         list();
+        list(const std::initializer_list<T>&); // 初始化列表构造函数
 
         auto begin() -> iterator; // 获取首元素迭代器
         auto end() -> iterator;  // 获取终止位迭代器
@@ -57,6 +59,17 @@ hbutds::list<T>::list(){
     _tail = new Node();
     _head->next = _tail;
     _tail->prev = _head;
+}
+
+template <typename T>
+hbutds::list<T>::list(const std::initializer_list<T>& l){
+    _head = new Node();
+    _tail = new Node();
+    _head->next = _tail;
+    _tail->prev = _head;
+    for(auto& e : l){
+        push_back(e);
+    }
 }
 
 template <typename T>

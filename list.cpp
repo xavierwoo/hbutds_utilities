@@ -58,11 +58,25 @@ namespace hbutds{
         cout<<"@ erase works\n";
     }
 
+    void test_list_initializer(){
+        hbutds::list<int> lst {0,1,2};
+        auto it{lst.begin()};
+        assert(*it == 0);
+        ++it;
+        assert(*it == 1);
+        ++it;
+        assert(*it == 2);
+        ++it;
+        assert(!(it != lst.end()));
+        cout<<"@ initializer works\n";
+    }
+
     void list_works(){
         test_list_declare();
         test_list_insert();
         test_list_iterator();
         test_list_erase();
+        test_list_initializer();
         cout<<"hbutds::list works!\n";
     }
 } 
