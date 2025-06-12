@@ -1,6 +1,8 @@
 #ifndef HBUTDS_LIST_H
 #define HBUTDS_LIST_H
 
+#include <cassert>
+
 namespace hbutds{
 
     template <typename T>
@@ -87,7 +89,21 @@ void hbutds::list<T>::push_back(const T& new_e){
     insert(end(), new_e);
 }
 
+template <typename T>
+auto hbutds::list<T>::erase(const iterator it) -> iterator {
+    auto del_node {it._curr};
+    assert(del_node != _head && del_node != _tail);
 
+    auto prev_node {del_node->prev};
+    auto next_node {del_node->next};
+
+    prev_node->next = next_node;
+    next_node->prev = prev_node;
+
+    delete del_node;
+
+    return iterator(next_node);
+}
 
 /* 以下是迭代器相关函数 */
 

@@ -45,10 +45,24 @@ namespace hbutds{
         cout<<"@ iterator works\n";
     }
 
+    void test_list_erase(){
+        hbutds::list<int> lst;
+        lst.push_back(0);
+        lst.push_back(1);
+        lst.push_back(2);
+        
+        auto it {lst.erase(lst.begin())};
+        assert(*it == 1);
+        it = lst.erase(it);
+        assert(*it == 2);
+        cout<<"@ erase works\n";
+    }
+
     void list_works(){
         test_list_declare();
         test_list_insert();
         test_list_iterator();
+        test_list_erase();
         cout<<"hbutds::list works!\n";
     }
 } 
