@@ -10,5 +10,7 @@ add_library(hbutds_utilities STATIC
     forward_list.cpp
     list.h
     list.cpp
+    algorithm.h
+    algorithm.cpp
 )
 target_include_directories(hbutds_utilities PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
