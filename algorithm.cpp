@@ -1,8 +1,8 @@
 #include "algorithm.h"
-#include <stack>
+#include "stack.h"
 
 auto hbutds::check_brackets_matching(const std::string& str) -> bool{
-    std::stack<char> stk;
+    hbutds::stack<char> stk;
     for(char c : str){
         switch (c) {
             case '(':
