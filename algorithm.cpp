@@ -2,7 +2,7 @@
 #include "stack.h"
 
 auto hbutds::check_brackets_matching(const std::string& str) -> bool{
-    hbutds::stack<char> stk;
+    stack<char> stk;
     for(char c : str){
         switch (c) {
             case '(':
