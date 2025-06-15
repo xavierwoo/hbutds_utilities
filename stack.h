@@ -1,7 +1,7 @@
 #ifndef HBUTDS_STACK_H
 #define HBUTDS_STACK_H
 
-#include <vector.h>
+#include "vector.h"
 #include <cassert>
 
 namespace hbutds{
