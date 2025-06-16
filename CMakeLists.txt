@@ -14,5 +14,7 @@ add_library(hbutds_utilities STATIC
     algorithm.cpp
     stack.h
     stack.cpp
+    queue.h
+    queue.cpp
 )
 target_include_directories(hbutds_utilities PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
