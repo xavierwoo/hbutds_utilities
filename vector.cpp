@@ -47,6 +47,7 @@ namespace hbutds{
         vector<int> vec{1, 2, 3, 4, 5};
         assert(*(vec.begin() + 1) == vec[1]);
         assert(*(vec.begin() + 3) == vec[3]);
+        assert(vec.end() - vec.begin() == 5);
         cout<<"@ Iterator calculation works\n";
     }
 

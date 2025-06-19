@@ -48,6 +48,8 @@ namespace hbutds{
         auto operator*() -> T&; // 获得指向的元素
         auto operator!=(const iterator) const -> bool; // 不等判定
         auto operator+(int) -> iterator; // 获取相对位置的迭代器
+
+        auto operator-(const iterator) const -> int; // 计算两个迭代器的相对位置
     };
 
     void vector_works();
@@ -101,40 +103,6 @@ hbutds::vector<T>::~vector(){
     _data = nullptr;
     _size = 0;
     _capacity = 0;
-}
-
-
-/* 以下为迭代器相关函数 */
-
-template <typename T>
-auto hbutds::vector<T>::begin() -> iterator{
-    return iterator(_data);
-}
-
-template <typename T>
-auto hbutds::vector<T>::end() -> iterator{
-    return iterator(_data + _size);
-}
-
-template <typename T>
-auto hbutds::vector<T>::iterator::operator++() -> iterator&{
-    ++_ptr;
-    return *this;
-}
-
-template <typename T>
-auto hbutds::vector<T>::iterator::operator*() -> T&{
-    return *_ptr;
-}
-
-template <typename T>
-auto hbutds::vector<T>::iterator::operator!=(const iterator o) const -> bool{
-    return _ptr != o._ptr;
-}
-
-template <typename T>
-auto hbutds::vector<T>::iterator::operator+(const int offset) -> iterator{
-    return iterator(_ptr + offset);
 }
 
 template <typename T>
@@ -227,6 +195,45 @@ auto hbutds::vector<T>::operator=(vector&& o) -> vector& {
     o._size = 0;
     o._capacity = 0;
     return *this;
+}
+
+
+/* 以下为迭代器相关函数 */
+
+template <typename T>
+auto hbutds::vector<T>::begin() -> iterator{
+    return iterator(_data);
+}
+
+template <typename T>
+auto hbutds::vector<T>::end() -> iterator{
+    return iterator(_data + _size);
+}
+
+template <typename T>
+auto hbutds::vector<T>::iterator::operator++() -> iterator&{
+    ++_ptr;
+    return *this;
+}
+
+template <typename T>
+auto hbutds::vector<T>::iterator::operator*() -> T&{
+    return *_ptr;
+}
+
+template <typename T>
+auto hbutds::vector<T>::iterator::operator!=(const iterator o) const -> bool{
+    return _ptr != o._ptr;
+}
+
+template <typename T>
+auto hbutds::vector<T>::iterator::operator+(const int offset) -> iterator{
+    return iterator(_ptr + offset);
+}
+
+template <typename T>
+auto hbutds::vector<T>::iterator::operator-(const iterator o) const -> int{
+    return _ptr - o._ptr;
 }
 
 #endif
