@@ -1,31 +1,54 @@
 #include "algorithm.h"
 #include "stack.h"
+#include "vector.h"
+#include <cassert>
+#include <iostream>
 
-auto hbutds::check_brackets_matching(const std::string& str) -> bool{
-    stack<char> stk;
-    for(char c : str){
-        switch (c) {
-            case '(':
-            case '[':
-            case '{':
-                stk.push(c);
-                break;
-            case ')':
-                if (stk.empty()) return false;
-                if (stk.top() != '(') return false;
-                stk.pop();
-                break;
-            case ']':
-                if (stk.empty()) return false;
-                if (stk.top() != '[') return false;
-                stk.pop();
-                break;
-            case '}':
-                if (stk.empty()) return false;
-                if (stk.top() != '{') return false;
-                stk.pop();
-                break;
+using std::cout;
+
+namespace hbutds{
+
+    auto check_brackets_matching(const std::string& str) -> bool{
+        stack<char> stk;
+        for(char c : str){
+            switch (c) {
+                case '(':
+                case '[':
+                case '{':
+                    stk.push(c);
+                    break;
+                case ')':
+                    if (stk.empty()) return false;
+                    if (stk.top() != '(') return false;
+                    stk.pop();
+                    break;
+                case ']':
+                    if (stk.empty()) return false;
+                    if (stk.top() != '[') return false;
+                    stk.pop();
+                    break;
+                case '}':
+                    if (stk.empty()) return false;
+                    if (stk.top() != '{') return false;
+                    stk.pop();
+                    break;
+            }
         }
+        return stk.empty();
     }
-    return stk.empty();
+
+    void test_push_heap(){
+        hbutds::vector<int> heap{21, 20, 12, 22};
+        push_heap(heap);
+        assert(heap[0] == 22);
+        assert(heap[1] == 21);
+        assert(heap[2] == 12);
+        assert(heap[3] == 20);
+        cout<<"@ push_heap works\n";
+    }
+
+    void heap_works(){
+        test_push_heap();
+        cout<<"hbutds heap works!\n";
+    }
 }
