@@ -13,7 +13,7 @@ namespace hbutds{
     auto check_brackets_matching(const std::string&) -> bool;
 
     template <typename T, typename Comparator>
-    void percolate_up_heap(vector<T>&, int, Comparator);
+    void percolate_up_heap(vector<T>&, const int, Comparator);
 
     template <typename T, typename Comparator = std::less<T>>
     void push_heap(vector<T>&, Comparator = Comparator());
@@ -23,7 +23,7 @@ namespace hbutds{
 
 
 template <typename T, typename Comparator>
-void hbutds::percolate_up_heap(vector<T>& heap, int pos, Comparator cmp){
+void hbutds::percolate_up_heap(vector<T>& heap, const int pos, Comparator cmp){
     int curr_pos {pos};
     int parent_pos {(curr_pos - 1) / 2};
     while(curr_pos > 0 && !cmp(heap[curr_pos], heap[parent_pos])){
