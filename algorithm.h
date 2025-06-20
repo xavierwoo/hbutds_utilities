@@ -60,7 +60,7 @@ void hbutds::percolate_down_heap(
     while(child_pos < end_pos){
 
         // 定位到更大的孩子
-        if (child_pos < end_pos && cmp(heap[child_pos], heap[child_pos+1])){
+        if (child_pos+1 < end_pos && cmp(heap[child_pos], heap[child_pos+1])){
             ++child_pos;
         }
 
