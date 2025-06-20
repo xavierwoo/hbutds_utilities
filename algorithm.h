@@ -13,18 +13,23 @@ namespace hbutds{
     // 字符串括号匹配
     auto check_brackets_matching(const std::string&) -> bool;
 
+    // 堆元素向上调整
     template <typename T, typename Comparator>
     void percolate_up_heap(vector<T>&, const int, Comparator);
 
+    // 堆插入元素
     template <typename T, typename Comparator = std::less<T>>
     void push_heap(vector<T>&, Comparator = Comparator());
 
+    // 堆元素向下调整
     template <typename T, typename Comparator>
     void percolate_down_heap(vector<T>&, const int, const int, Comparator);
 
+    // 弹出堆顶
     template <typename T, typename Comparator = std::less<T>>
     void pop_heap(vector<T>&, Comparator = Comparator());
 
+    // 将vector调整为堆
     template <typename T, typename Comparator = std::less<T>>
     void make_heap(vector<T>&, Comparator = Comparator());
 
