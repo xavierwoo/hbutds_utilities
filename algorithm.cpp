@@ -59,7 +59,11 @@ namespace hbutds{
     void test_make_heap(){
         vector<int> heap{12,8,7,17};
         make_heap(heap);
-        for(int e : heap) cout<<e<<" ";
+        assert(heap[0] == 17);
+        assert(heap[1] == 12);
+        assert(heap[2] == 7);
+        assert(heap[3] == 8);
+        cout<<"@ make_heap works\n";
     }
 
     void heap_works(){
