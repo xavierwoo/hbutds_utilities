@@ -1,7 +1,6 @@
 #include "algorithm.h"
 #include "stack.h"
 #include "vector.h"
-#include <cassert>
 #include <iostream>
 
 using std::cout;
@@ -47,8 +46,20 @@ namespace hbutds{
         cout<<"@ push_heap works\n";
     }
 
+    void test_pop_heap(){
+        hbutds::vector<int> heap{22, 21, 12, 20}; 
+        pop_heap(heap);
+        assert(heap[0] == 21);
+        assert(heap[1] == 20);
+        assert(heap[2] == 12);
+        assert(heap[3] == 22);
+        cout<<"@ pop_heap works\n";
+    }
+
     void heap_works(){
         test_push_heap();
+        test_pop_heap();
         cout<<"hbutds heap works!\n";
     }
+    
 }
