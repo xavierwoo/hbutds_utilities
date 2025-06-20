@@ -56,10 +56,17 @@ namespace hbutds{
         cout<<"@ pop_heap works\n";
     }
 
+    void test_make_heap(){
+        vector<int> heap{12,8,7,17};
+        make_heap(heap);
+        for(int e : heap) cout<<e<<" ";
+    }
+
     void heap_works(){
         test_push_heap();
         test_pop_heap();
+        test_make_heap();
         cout<<"hbutds heap works!\n";
     }
-    
+
 }

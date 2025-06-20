@@ -25,6 +25,9 @@ namespace hbutds{
     template <typename T, typename Comparator = std::less<T>>
     void pop_heap(vector<T>&, Comparator = Comparator());
 
+    template <typename T, typename Comparator = std::less<T>>
+    void make_heap(vector<T>&, Comparator = Comparator());
+
     void heap_works();
 }
 
@@ -91,5 +94,11 @@ void hbutds::pop_heap(vector<T>& heap, Comparator cmp){
     percolate_down_heap(heap, 0, heap.size() - 1, cmp);
 }
 
+template <typename T, typename Comparator>
+void hbutds::make_heap(vector<T>& heap, Comparator cmp){
+    for(int pos=heap.size()/2-1; pos >= 0; --pos){
+        percolate_down_heap(heap, pos, heap.size(), cmp);
+    }
+}
 
 #endif
