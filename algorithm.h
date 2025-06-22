@@ -85,7 +85,7 @@ void hbutds::pop_heap(vector<T>& heap, Comparator cmp){
     //交换首尾元素
     T tmp {heap[0]};
     heap[0] = std::move(heap[heap.size() - 1]);
-    heap[heap.size() - 1] = tmp;
+    heap[heap.size() - 1] = std::move(tmp);
 
     // 将前n-1个元素上进行0号元素向下调整
     percolate_down_heap(heap, 0, heap.size() - 1, cmp);
