@@ -91,7 +91,7 @@ void hbutds::pop_heap(vector<T>& heap, Comparator cmp){
     assert(heap.size() > 0);
 
     //交换首尾元素
-    T tmp {heap[0]};
+    T tmp {std::move(heap[0])};
     heap[0] = std::move(heap[heap.size() - 1]);
     heap[heap.size() - 1] = std::move(tmp);
 
