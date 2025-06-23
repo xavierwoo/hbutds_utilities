@@ -141,6 +141,24 @@ namespace hbutds{
         cout<<"@ rule of five good\n";
     }
 
+    void test_const_iterator_fun(const vector<int>& vec){
+        for(auto& e : vec){
+            cout<<e;
+        }
+        for(int i=0; i<vec.size(); ++i){
+            cout<<vec[i];
+        }
+    }
+
+    void test_const_iterator(){
+        vector<int> vec{1,2,3};
+        for(const auto& e : vec){
+            cout<<e;
+        }
+        test_const_iterator_fun(vec);
+        cout<<"@ const iterator works\n";
+    }
+
     void vector_works(){
         test_vector_initializer();
         test_vector_iterator();
@@ -149,6 +167,7 @@ namespace hbutds{
         test_vector_push_back();
         test_vector_erase();
         test_vector_rule_five();
+        test_const_iterator();
         
         cout<<"@ hbutds::vector works\n";
     }

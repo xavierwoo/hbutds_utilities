@@ -35,6 +35,13 @@ namespace hbutds{
         vector(vector&&);      // 移动拷贝构造函数
         auto operator=(const vector&) -> vector&; // 赋值操作符
         auto operator=(vector&&) -> vector&;      // 移动赋值操作符
+
+
+        // 后续课程代码中作为常量使用
+        struct const_iterator;
+        auto begin() const -> const_iterator;
+        auto end() const -> const_iterator;
+        auto operator[](const unsigned int) const -> const T&;
     };
 
     template <typename T>
@@ -42,7 +49,7 @@ namespace hbutds{
         friend vector;
     private:
         T* _ptr; // 指向元素的指针
-        iterator(T* p):_ptr(p){}; // 设置构造函数私有，防止私开迭代器
+        iterator(T* p):_ptr(p){} // 设置构造函数私有，防止私开迭代器
     public:
         auto operator++() -> iterator&; // 获得后继迭代器
         auto operator*() -> T&; // 获得指向的元素
@@ -50,6 +57,18 @@ namespace hbutds{
         auto operator+(int) -> iterator; // 获取相对位置的迭代器
 
         auto operator-(const iterator) const -> int; // 计算两个迭代器的相对位置
+    };
+
+    template <typename T>
+    struct vector<T>::const_iterator{
+        friend vector;
+    private:
+        const T* _ptr;
+        const_iterator(T* p):_ptr(p){}
+    public:
+        auto operator++() -> const_iterator&;
+        auto operator*() const -> const T&;
+        auto operator!=(const const_iterator) const -> bool;
     };
 
     void vector_works();
@@ -67,6 +86,12 @@ auto hbutds::vector<T>::capacity() const -> unsigned int{
 
 template <typename T>
 auto hbutds::vector<T>::operator[](const unsigned int pos) -> T&{
+    assert(pos < _size);
+    return _data[pos];
+}
+
+template <typename T>
+auto hbutds::vector<T>::operator[](const unsigned int pos) const -> const T&{
     assert(pos < _size);
     return _data[pos];
 }
@@ -206,8 +231,18 @@ auto hbutds::vector<T>::begin() -> iterator{
 }
 
 template <typename T>
+auto hbutds::vector<T>::begin() const -> const_iterator{
+    return const_iterator(_data);
+}
+
+template <typename T>
 auto hbutds::vector<T>::end() -> iterator{
     return iterator(_data + _size);
+}
+
+template <typename T>
+auto hbutds::vector<T>::end() const -> const_iterator{
+    return const_iterator(_data + _size);
 }
 
 template <typename T>
@@ -234,6 +269,22 @@ auto hbutds::vector<T>::iterator::operator+(const int offset) -> iterator{
 template <typename T>
 auto hbutds::vector<T>::iterator::operator-(const iterator o) const -> int{
     return _ptr - o._ptr;
+}
+
+template <typename T>
+auto hbutds::vector<T>::const_iterator::operator++() -> const_iterator&{
+    ++_ptr;
+    return *this;
+}
+
+template <typename T>
+auto hbutds::vector<T>::const_iterator::operator*() const -> const T&{
+    return *_ptr;
+}
+
+template <typename T>
+auto hbutds::vector<T>::const_iterator::operator!=(const const_iterator o) const -> bool{
+    return _ptr != o._ptr;
 }
 
 #endif
