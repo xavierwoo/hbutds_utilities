@@ -2,6 +2,7 @@
 #define HBUTDS_BINARY_TREE_H
 
 #include "vector.h"
+#include <iostream>
 
 namespace hbutds{
 
@@ -18,6 +19,18 @@ namespace hbutds{
     };
 
     auto make_huffman_tree(const vector<double>&) -> BinaryTreeNode<double>*;
+
+    template <typename T>
+    void binary_tree_pre_order_recur(const BinaryTreeNode<T>* const);
+}
+
+
+template <typename T>
+void hbutds::binary_tree_pre_order_recur(const BinaryTreeNode<T>* const root){
+    if (root == nullptr) return;
+    std::cout<<root->data<<" ";
+    binary_tree_pre_order_recur(root->left);
+    binary_tree_pre_order_recur(root->right);
 }
 
 #endif
