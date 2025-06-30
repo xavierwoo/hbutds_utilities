@@ -7,14 +7,14 @@ namespace hbutds{
 
     template <typename T>
     struct BinaryTreeNode{
-        T data;
-        BinaryTreeNode* left{nullptr};
-        BinaryTreeNode* right{nullptr};
+        T data;  // 数据元素
+        BinaryTreeNode* left{nullptr}; // 左孩子指针
+        BinaryTreeNode* right{nullptr}; // 右孩子指针
 
         BinaryTreeNode() = default;
-        BinaryTreeNode(const T& d): data(d){};
+        BinaryTreeNode(const T& d): data(d){}
         BinaryTreeNode(const T& d, BinaryTreeNode* l, BinaryTreeNode* r):
-                data(d), left(l), right(r){};
+                data(d), left(l), right(r){}
     };
 
     auto make_huffman_tree(const vector<double>&) -> BinaryTreeNode<double>*;
