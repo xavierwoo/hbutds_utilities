@@ -36,7 +36,7 @@ namespace hbutds{
 template <typename T>
 void hbutds::binary_tree_pre_order_recursive(const BinaryTreeNode<T>* const root){
     if (root == nullptr) return;
-    std::cout<<root->data<<" ";
+    cout<<format("{} ", root->data);
     binary_tree_pre_order_recursive(root->left);
     binary_tree_pre_order_recursive(root->right);
 }
