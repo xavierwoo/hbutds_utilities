@@ -4,6 +4,9 @@
 #include "vector.h"
 #include "stack.h"
 #include <iostream>
+#include <format>
+
+using std::cout, std::format;
 
 namespace hbutds{
 
@@ -24,6 +27,9 @@ namespace hbutds{
     template <typename T>
     void binary_tree_pre_order_recursive(const BinaryTreeNode<T>* const);
 
+    template <typename T>
+    void binary_tree_pre_order_iterative(const BinaryTreeNode<T>* const);
+
 }
 
 
@@ -35,5 +41,17 @@ void hbutds::binary_tree_pre_order_recursive(const BinaryTreeNode<T>* const root
     binary_tree_pre_order_recursive(root->right);
 }
 
+template <typename T>
+void hbutds::binary_tree_pre_order_iterative(const BinaryTreeNode<T>* root){
+    if (root == nullptr) return;
+    stack<const  BinaryTreeNode<T>*> stk;
+    stk.push(root);
+    while(! stk.empty()){
+        auto curr {stk.top()}; stk.pop();
+        cout<<format("{} ", curr->data);
+        if(curr->right != nullptr) stk.push(curr->right);
+        if(curr->left != nullptr) stk.push(curr->left);
+    } 
+}
 
 #endif
