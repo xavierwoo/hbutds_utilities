@@ -45,6 +45,10 @@ namespace hbutds{
     /*中序遍历递归算法*/
     template <typename T>
     void binary_tree_in_order_recursive(const BinaryTreeNode<T>* const);
+
+    /*中序遍历迭代算法*/
+    template <typename T>
+    void binary_tree_in_order_iterative(const BinaryTreeNode<T>*);
 }
 
 
@@ -103,5 +107,28 @@ void hbutds::binary_tree_in_order_recursive(const BinaryTreeNode<T>* const root)
     cout<<format("{} ", root->data);
     binary_tree_in_order_recursive(root->right);
 }
+
+template <typename T>
+void hbutds::binary_tree_in_order_iterative(const BinaryTreeNode<T>* root){
+    if(root == nullptr) return;
+    stack<const BinaryTreeNode<T>*> stk;
+    const BinaryTreeNode<T>* curr {root};
+    while(curr != nullptr || !stk.empty()){
+        
+        //将curr指针移动到最左，并记录路径
+        while(curr != nullptr){
+            stk.push(curr);
+            curr = curr->left;
+        }
+
+        //当前节点为栈顶元素
+        curr = stk.top(); stk.pop();
+        //访问当前节点
+        cout<<format("{} ", curr->data);
+        //移动至右孩子
+        curr = curr->right;
+    }
+}
+
 
 #endif
