@@ -22,13 +22,25 @@ namespace hbutds{
                 data(d), left(l), right(r){}
     };
 
+    /*构造哈夫曼树*/
     auto make_huffman_tree(const vector<double>&) -> BinaryTreeNode<double>*;
 
+    /*前序遍历递归算法*/
     template <typename T>
     void binary_tree_pre_order_recursive(const BinaryTreeNode<T>* const);
 
+    /*前序遍历迭代算法*/
     template <typename T>
     void binary_tree_pre_order_iterative(const BinaryTreeNode<T>* const);
+
+    /*求幂集*/
+    template <typename T>
+    auto get_power_set(const vector<T>&) -> vector<vector<T>>;
+
+    /*求幂集函数的递归子函数*/
+    template <typename T>
+    void get_power_set_recur(const vector<T>&, const unsigned int, 
+            vector<T>&, vector<vector<T>>&);
 
 }
 
@@ -52,6 +64,33 @@ void hbutds::binary_tree_pre_order_iterative(const BinaryTreeNode<T>* root){
         if(curr->right != nullptr) stk.push(curr->right);
         if(curr->left != nullptr) stk.push(curr->left);
     } 
+}
+
+template <typename T>
+auto hbutds::get_power_set(const vector<T>& ori_set) -> vector<vector<T>>{
+    vector<vector<T>> power_set;
+    vector<T> curr_set;
+    get_power_set_recur(ori_set, 0, curr_set, power_set);
+    return power_set;
+}
+
+template <typename T>
+void hbutds::get_power_set_recur(
+        const vector<T>& ori_set, 
+        const unsigned int pos, 
+        vector<T>& curr_set, 
+        vector<vector<T>>& power_set
+){
+    if(pos == ori_set.size()){
+        power_set.push_back(curr_set);
+        return;
+    }
+
+    curr_set.push_back(ori_set[pos]); //有这个元素
+    get_power_set_recur(ori_set, pos+1, curr_set, power_set);
+
+    curr_set.erase(curr_set.end() + (-1)); //没有这个元素
+    get_power_set_recur(ori_set, pos+1, curr_set, power_set);
 }
 
 #endif
