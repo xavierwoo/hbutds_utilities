@@ -31,7 +31,7 @@ namespace hbutds{
 
     /*前序遍历迭代算法*/
     template <typename T>
-    void binary_tree_pre_order_iterative(const BinaryTreeNode<T>* const);
+    void binary_tree_pre_order_iterative(const BinaryTreeNode<T>*);
 
     /*求幂集*/
     template <typename T>
@@ -41,7 +41,10 @@ namespace hbutds{
     template <typename T>
     void get_power_set_recur(const vector<T>&, const unsigned int, 
             vector<T>&, vector<vector<T>>&);
-
+    
+    /*中序遍历递归算法*/
+    template <typename T>
+    void binary_tree_in_order_recursive(const BinaryTreeNode<T>* const);
 }
 
 
@@ -91,6 +94,14 @@ void hbutds::get_power_set_recur(
 
     curr_set.erase(curr_set.end() + (-1)); //没有这个元素
     get_power_set_recur(ori_set, pos+1, curr_set, power_set);
+}
+
+template <typename T>
+void hbutds::binary_tree_in_order_recursive(const BinaryTreeNode<T>* const root){
+    if (root == nullptr) return;
+    binary_tree_in_order_recursive(root->left);
+    cout<<format("{} ", root->data);
+    binary_tree_in_order_recursive(root->right);
 }
 
 #endif
