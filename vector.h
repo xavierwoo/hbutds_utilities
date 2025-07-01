@@ -45,6 +45,7 @@ auto hbutds::vector<T>::operator[](const unsigned int pos) -> T&{
 
 template <typename T>
 void hbutds::vector<T>::reserve(const unsigned int new_c){
+    if(new_c == _capacity) return;
     assert(new_c > _capacity); // 新容量必须大于当前容量
     auto new_data {static_cast<T*>(std::malloc(sizeof(T) * new_c))};
     for(auto i{0}; i<_size; ++i){ // 依次将元素移动拷贝到新地址
