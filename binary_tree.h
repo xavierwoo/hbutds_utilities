@@ -6,10 +6,10 @@
 #include <iostream>
 #include <format>
 
-using std::cout, std::format;
-
 namespace hbutds{
 
+    using std::cout, std::format;
+    
     template <typename T>
     struct BinaryTreeNode{
         T data;  // 数据元素
@@ -49,6 +49,9 @@ namespace hbutds{
     /*中序遍历迭代算法*/
     template <typename T>
     void binary_tree_in_order_iterative(const BinaryTreeNode<T>*);
+
+    /*汉诺塔操作求解算法*/
+    void hanoi(const int, const char, const char, const char);
 }
 
 
@@ -114,7 +117,7 @@ void hbutds::binary_tree_in_order_iterative(const BinaryTreeNode<T>* root){
     stack<const BinaryTreeNode<T>*> stk;
     const BinaryTreeNode<T>* curr {root};
     while(curr != nullptr || !stk.empty()){
-        
+
         //将curr指针移动到最左，并记录路径
         while(curr != nullptr){
             stk.push(curr);

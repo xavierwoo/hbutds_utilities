@@ -1,6 +1,8 @@
 #include "binary_tree.h"
 #include "algorithm.h"
 
+using std::cout, std::format;
+
 namespace hbutds{
 
     struct HuffmanComparator{
@@ -49,4 +51,11 @@ auto hbutds::make_huffman_tree(
     }
 
     return heap[0];
+}
+
+void hbutds::hanoi(const int n, const char curr, const char aux, const char tar){
+    if ( n <= 0 )return;
+    hanoi(n-1, curr, tar, aux);
+    cout<<format("Move disk No.{} from {} to {}\n", n, curr, tar);
+    hanoi(n-1, aux, curr, tar);
 }
