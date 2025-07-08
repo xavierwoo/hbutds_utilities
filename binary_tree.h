@@ -9,7 +9,7 @@
 namespace hbutds{
 
     using std::cout, std::format;
-    
+
     template <typename T>
     struct BinaryTreeNode{
         T data;  // 数据元素
@@ -52,6 +52,11 @@ namespace hbutds{
 
     /*汉诺塔操作求解算法*/
     void hanoi(const int, const char, const char, const char);
+
+    /*后续遍历递归算法*/
+    template <typename T>
+    void binary_tree_post_order_recursive(const BinaryTreeNode<T>* const);
+
 }
 
 
@@ -133,5 +138,12 @@ void hbutds::binary_tree_in_order_iterative(const BinaryTreeNode<T>* root){
     }
 }
 
+template <typename T>
+void hbutds::binary_tree_post_order_recursive(const BinaryTreeNode<T>* const root){
+    if(root == nullptr) return;
+    binary_tree_post_order_recursive(root->left);
+    binary_tree_post_order_recursive(root->right);
+    cout<<format("{} ", root->data);
+}
 
 #endif
