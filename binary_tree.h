@@ -53,9 +53,13 @@ namespace hbutds{
     /*汉诺塔操作求解算法*/
     void hanoi(const int, const char, const char, const char);
 
-    /*后续遍历递归算法*/
+    /*后序遍历递归算法*/
     template <typename T>
     void binary_tree_post_order_recursive(const BinaryTreeNode<T>* const);
+
+    /*后序遍历迭代算法*/
+    template <typename T>
+    void binary_tree_post_order_iterative(const BinaryTreeNode<T>*);
 
 }
 
@@ -144,6 +148,30 @@ void hbutds::binary_tree_post_order_recursive(const BinaryTreeNode<T>* const roo
     binary_tree_post_order_recursive(root->left);
     binary_tree_post_order_recursive(root->right);
     cout<<format("{} ", root->data);
+}
+
+template <typename T>
+void hbutds::binary_tree_post_order_iterative(const BinaryTreeNode<T>* root){
+    if(root == nullptr) return;
+    stack<const BinaryTreeNode<T>*> stk;
+    const BinaryTreeNode<T>* curr{root};
+    const BinaryTreeNode<T>* last_visited{nullptr};
+    while(curr != nullptr || !stk.empty()){
+        while(curr != nullptr){
+            stk.push(curr);
+            curr = curr->left;
+        }
+        auto top_node {stk.top()};
+        //检查是否有右子树需要访问
+        if(top_node->right != nullptr && top_node->right != last_visited){
+            curr = top_node->right;
+        }else{
+            //访问当前的栈顶
+            cout<<format("{} ", top_node->data);
+            last_visited = top_node;
+            stk.pop();
+        }
+    }
 }
 
 #endif
