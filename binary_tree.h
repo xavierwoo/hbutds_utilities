@@ -20,6 +20,8 @@ namespace hbutds{
         BinaryTreeNode(const T& d): data(d){}
         BinaryTreeNode(const T& d, BinaryTreeNode* l, BinaryTreeNode* r):
                 data(d), left(l), right(r){}
+
+        ~BinaryTreeNode();
     };
 
     /*构造哈夫曼树*/
@@ -157,10 +159,13 @@ void hbutds::binary_tree_post_order_iterative(const BinaryTreeNode<T>* root){
     const BinaryTreeNode<T>* curr{root};
     const BinaryTreeNode<T>* last_visited{nullptr};
     while(curr != nullptr || !stk.empty()){
+
+        //将curr指针移动到最左，并记录路径
         while(curr != nullptr){
             stk.push(curr);
             curr = curr->left;
         }
+        
         auto top_node {stk.top()};
         //检查是否有右子树需要访问
         if(top_node->right != nullptr && top_node->right != last_visited){
@@ -172,6 +177,12 @@ void hbutds::binary_tree_post_order_iterative(const BinaryTreeNode<T>* root){
             stk.pop();
         }
     }
+}
+
+template <typename T>
+hbutds::BinaryTreeNode<T>::~BinaryTreeNode(){
+    if (left != nullptr) left->~BinaryTreeNode();
+    if (right != nullptr) right->~BinaryTreeNode();
 }
 
 #endif
