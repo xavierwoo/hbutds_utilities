@@ -34,7 +34,7 @@ namespace hbutds{
 
     /*前序遍历迭代算法*/
     template <typename T>
-    void binary_tree_pre_order_iterative(const BinaryTreeNode<T>*);
+    void binary_tree_pre_order_iterative(const BinaryTreeNode<T>* const);
 
     /*求幂集*/
     template <typename T>
