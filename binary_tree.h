@@ -84,7 +84,7 @@ void hbutds::binary_tree_pre_order_recursive(const BinaryTreeNode<T>* const root
 }
 
 template <typename T>
-void hbutds::binary_tree_pre_order_iterative(const BinaryTreeNode<T>* root){
+void hbutds::binary_tree_pre_order_iterative(const BinaryTreeNode<T>* const root){
     if (root == nullptr) return;
     stack<const  BinaryTreeNode<T>*> stk;
     stk.push(root);
@@ -132,7 +132,7 @@ void hbutds::binary_tree_in_order_recursive(const BinaryTreeNode<T>* const root)
 }
 
 template <typename T>
-void hbutds::binary_tree_in_order_iterative(const BinaryTreeNode<T>* root){
+void hbutds::binary_tree_in_order_iterative(const BinaryTreeNode<T>* const root){
     if(root == nullptr) return;
     stack<const BinaryTreeNode<T>*> stk;
     const BinaryTreeNode<T>* curr {root};
@@ -162,7 +162,7 @@ void hbutds::binary_tree_post_order_recursive(const BinaryTreeNode<T>* const roo
 }
 
 template <typename T>
-void hbutds::binary_tree_post_order_iterative(const BinaryTreeNode<T>* root){
+void hbutds::binary_tree_post_order_iterative(const BinaryTreeNode<T>* const root){
     if(root == nullptr) return;
     stack<const BinaryTreeNode<T>*> stk;
     const BinaryTreeNode<T>* curr{root};
