@@ -4,8 +4,10 @@
 #include "vector.h"
 #include "stack.h"
 #include "queue.h"
+#include "array.h"
 #include <iostream>
 #include <format>
+#include <utility>
 
 namespace hbutds{
 
@@ -24,7 +26,7 @@ namespace hbutds{
 
         ~BinaryTreeNode();
     };
-
+    
     /*构造哈夫曼树*/
     auto make_huffman_tree(const vector<double>&) -> BinaryTreeNode<double>*;
 
@@ -72,6 +74,9 @@ namespace hbutds{
     template<typename T>
     void binary_tree_level_order(const BinaryTreeNode<T>* const);
 
+    /*在终端打印二叉树*/
+    template<typename T>
+    void binary_tree_print(const BinaryTreeNode<T>* const, unsigned int);
 }
 
 
@@ -216,6 +221,48 @@ void hbutds::binary_tree_level_order(const BinaryTreeNode<T>* const root){
         if(curr->left != nullptr) que.push(curr->left);
         if(curr->right != nullptr) que.push(curr->right);
     } 
+}
+
+template <typename T>
+void hbutds::binary_tree_print(
+        const BinaryTreeNode<T>* const root, 
+        unsigned int screen_width
+){
+    if(root == nullptr) return;
+    unsigned int curr_level{0};
+    unsigned int curr_indent{0};
+    queue<
+        std::pair<const BinaryTreeNode<T>*, array<unsigned int, 2>>
+    > que;
+    // 使用长度为2的array存储打印位置：[0]存储层号，[1]存储缩进
+    que.push({root, {0, screen_width/2}});
+
+    while(!que.empty()){
+        auto [curr_node, location] {que.front()}; que.pop();
+
+        //根据存储的位置打印元素
+        if(location[0] == curr_level){ // 与上一个元素同层
+            const auto indent {location[1] - curr_indent-1};
+            for(int i{0}; i<indent; ++i) cout<<" ";
+            cout<<curr_node->data;
+        }else{ // 与上一个元素不同层
+            cout<<"\n";
+            for(int i{0}; i<location[1]-1; ++i) cout<<" ";
+            cout<<curr_node->data;
+            curr_level = location[0];
+        }
+        curr_indent = location[1];
+
+        //计算左右孩子的位置，并存入队列
+        const auto offset {screen_width / 2 / (1<<(curr_level + 1))};
+        if(curr_node->left != nullptr){
+            que.push({curr_node->left, {curr_level+1, curr_indent-offset}});
+        }
+        if(curr_node->right != nullptr){
+            que.push({curr_node->right, {curr_level+1, curr_indent+offset}});
+        }
+    }
+    cout<<"\n";
 }
 
 #endif
