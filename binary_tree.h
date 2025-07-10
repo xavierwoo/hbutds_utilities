@@ -62,7 +62,7 @@ namespace hbutds{
 
     /*后序遍历迭代算法*/
     template <typename T>
-    void binary_tree_post_order_iterative(const BinaryTreeNode<T>* const);
+    void binary_tree_post_order_iterative(const BinaryTreeNode<T>* const const);
     
     /*求二叉树深度*/
     template <typename T>
