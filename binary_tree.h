@@ -31,7 +31,7 @@ namespace hbutds{
 
     /*前序遍历迭代算法*/
     template <typename T>
-    void binary_tree_pre_order_iterative(const BinaryTreeNode<T>*);
+    void binary_tree_pre_order_iterative(const BinaryTreeNode<T>* const);
 
     /*求幂集*/
     template <typename T>
@@ -48,7 +48,7 @@ namespace hbutds{
 
     /*中序遍历迭代算法*/
     template <typename T>
-    void binary_tree_in_order_iterative(const BinaryTreeNode<T>*);
+    void binary_tree_in_order_iterative(const BinaryTreeNode<T>* const);
 
     /*汉诺塔操作求解算法*/
     void hanoi(const int, const char, const char, const char);
@@ -59,7 +59,7 @@ namespace hbutds{
 
     /*后序遍历迭代算法*/
     template <typename T>
-    void binary_tree_post_order_iterative(const BinaryTreeNode<T>*);
+    void binary_tree_post_order_iterative(const BinaryTreeNode<T>* const);
 
 }
 
