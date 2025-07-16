@@ -91,7 +91,7 @@ void hbutds::binary_tree_pre_order_recursive(const BinaryTreeNode<T>* const root
 template <typename T>
 void hbutds::binary_tree_pre_order_iterative(const BinaryTreeNode<T>* const root){
     if (root == nullptr) return;
-    stack<const  BinaryTreeNode<T>*> stk;
+    stack<const BinaryTreeNode<T>*> stk;
     stk.push(root);
     while(! stk.empty()){
         auto curr {stk.top()}; stk.pop();
@@ -213,7 +213,7 @@ auto hbutds::binary_tree_get_depth(
 template <typename T>
 void hbutds::binary_tree_level_order(const BinaryTreeNode<T>* const root){
     if (root == nullptr) return;
-    queue<const  BinaryTreeNode<T>*> que;
+    queue<const BinaryTreeNode<T>*> que;
     que.push(root);
     while(! que.empty()){
         auto curr {que.front()}; que.pop();
