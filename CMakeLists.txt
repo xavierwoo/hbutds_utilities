@@ -18,5 +18,6 @@ add_library(hbutds_utilities STATIC
     queue.cpp
     binary_tree.h
     binary_tree.cpp
+    tree.h
 )
 target_include_directories(hbutds_utilities PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
