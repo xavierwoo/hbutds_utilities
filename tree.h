@@ -2,8 +2,12 @@
 #define HBUTDS_TREE_H
 
 #include "vector.h"
+#include <iostream>
+#include <format>
 
 namespace hbutds{
+
+    using std::cout, std::format;
 
     template <typename T>
     struct TreeNode{
@@ -16,5 +20,18 @@ namespace hbutds{
                 : data(d), children(cl){}
     };
 
+    template <typename T>
+    void tree_dfs_pre_order_recursive(const TreeNode<T>&);
 }
+
+template <typename T>
+void hbutds::tree_dfs_pre_order_recursive(const TreeNode<T>& root){
+    cout<<format("{} ", root.data);
+    for(const auto& child : root.children){
+        tree_dfs_pre_order_recursive(child);
+    }
+}
+
+
+
 #endif
