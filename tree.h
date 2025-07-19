@@ -3,6 +3,7 @@
 
 #include "vector.h"
 #include "stack.h"
+#include "queue.h"
 #include <iostream>
 #include <format>
 
@@ -25,13 +26,17 @@ namespace hbutds{
     template <typename T>
     void tree_dfs_pre_order_recursive(const TreeNode<T>&);
 
-    /*深度优先后根遍历递归算法*/
+    /*深度优先后根遍历迭代算法*/
     template <typename T>
     void tree_dfs_pre_order_iterative(const TreeNode<T>&);
 
     /*深度优先后根遍历递归算法*/
     template <typename T>
     void tree_dfs_post_order_recursive(const TreeNode<T>&);
+
+    /*广度优先遍历算法*/
+    template <typename T>
+    void tree_bfs(const TreeNode<T>&);
 }
 
 template <typename T>
@@ -65,6 +70,21 @@ void hbutds::tree_dfs_post_order_recursive(const TreeNode<T>& root){
         tree_dfs_post_order_recursive(child);
     }
     cout<<format("{} ", root.data);
+}
+
+template <typename T>
+void hbutds::tree_bfs(const TreeNode<T>& root){
+    queue<const TreeNode<T>*> que;
+    que.push(&root);
+
+    while(!que.empty()){
+        auto curr {que.front()}; que.pop();
+        cout<<format("{} ", curr->data);
+
+        for(const auto& child : curr->children){
+            que.push(&child);
+        }
+    }
 }
 
 #endif
