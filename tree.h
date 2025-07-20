@@ -7,6 +7,7 @@
 #include "array.h"
 #include <iostream>
 #include <format>
+#include <filesystem>
 
 namespace hbutds{
 
@@ -52,6 +53,8 @@ namespace hbutds{
     /*广度优先遍历算法*/
     template <typename T>
     void tree_bfs(const TreeNode<T>&);
+
+    void list_files_bfs(const std::filesystem::path& dir_path);
 }
 
 template <typename T>

@@ -56,3 +56,23 @@ void hbutds::EightQueenSolver::print() const {
         }
     }
 }
+
+void hbutds::list_files_bfs(const std::filesystem::path& dir_path){
+    if (!std::filesystem::exists(dir_path) // 对非法或非文件夹的输入报错
+            || !std::filesystem::is_directory(dir_path)){
+        std::cerr<<format("Invalid path!\n");
+        return;
+    }
+    queue<std::filesystem::path> que;
+    que.push(dir_path);
+    while(!que.empty()){
+        auto curr {que.front()}; que.pop();
+        for(const auto& entry : std::filesystem::directory_iterator(curr)){
+            if(std::filesystem::is_directory(entry.path())){//文件夹加入队列
+                que.push(entry.path());
+            }else{
+                cout<<format("{}\n", entry.path().string());//文件名输出到屏幕
+            }
+        }
+    }
+}
