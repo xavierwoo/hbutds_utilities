@@ -181,8 +181,8 @@ void hbutds::binary_tree_post_order_iterative(const BinaryTreeNode<T>* root){
 
 template <typename T>
 hbutds::BinaryTreeNode<T>::~BinaryTreeNode(){
-    if (left != nullptr) left->~BinaryTreeNode();
-    if (right != nullptr) right->~BinaryTreeNode();
+    if (left != nullptr) delete left;
+    if (right != nullptr) delete right;
 }
 
 #endif
