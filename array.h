@@ -25,6 +25,8 @@ namespace hbutds{
         
         //使用下标获得相应位置元素
         auto operator[](const unsigned int) -> T&;
+        auto operator[](const unsigned int) const -> const T&;
+
         //获取数组长度
         auto size() const -> unsigned int;
 
@@ -88,6 +90,12 @@ hbutds::array<T, N>::array(const std::initializer_list<T>& l){
 
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::operator[](const unsigned int pos) -> T&{
+    assert(pos < N);
+    return _data[pos];    
+}
+
+template<typename T, unsigned int N>
+auto hbutds::array<T, N>::operator[](const unsigned int pos) const -> const T&{
     assert(pos < N);
     return _data[pos];    
 }
