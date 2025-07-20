@@ -6,6 +6,7 @@
 #include <vector>
 #include <utility>
 #include <cassert>
+#include <filesystem>
 #include "vector.h"
 #include "array.h"
 
@@ -50,6 +51,8 @@ namespace hbutds{
         void solve(); //算法启动函数
         void print() const; //打印结果
     };
+
+    void list_files_bfs(const std::filesystem::path&);
 }
 
 
