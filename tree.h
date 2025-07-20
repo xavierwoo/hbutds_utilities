@@ -4,6 +4,7 @@
 #include "vector.h"
 #include "stack.h"
 #include "queue.h"
+#include "array.h"
 #include <iostream>
 #include <format>
 
@@ -33,6 +34,20 @@ namespace hbutds{
     /*深度优先后根遍历递归算法*/
     template <typename T>
     void tree_dfs_post_order_recursive(const TreeNode<T>&);
+
+        struct EightQueenSolver{
+        array<int, 8> Y; // 棋子在每一行的位置
+        array<bool, 8> X; // x=?这条线是否被占用
+        array<bool, 15> XaY; // x+y=?这条线是否被占用
+        array<bool, 15> XmY; // x-y=?这条线是否被占用
+
+        vector<array<int, 8>> result; //所有结果
+
+        EightQueenSolver(); //构造函数初始化
+        void place_recursion(int); //递归放置棋子
+        void solve(); //算法启动函数
+        void print() const; //打印结果
+    };
 
     /*广度优先遍历算法*/
     template <typename T>
