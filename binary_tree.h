@@ -195,74 +195,8 @@ void hbutds::binary_tree_post_order_iterative(const BinaryTreeNode<T>* const roo
 
 template <typename T>
 hbutds::BinaryTreeNode<T>::~BinaryTreeNode(){
-    if (left != nullptr) left->~BinaryTreeNode();   // 删除左子树
-    if (right != nullptr) right->~BinaryTreeNode(); // 删除右子树
-}
-
-template <typename T>
-auto hbutds::binary_tree_get_depth(
-        const BinaryTreeNode<T>* const root
-) -> unsigned int{
-    if(root == nullptr) return 0; // 空二叉树的深度为0
-    auto left_depth {binary_tree_get_depth(root->left)};   //求左子树深度
-    auto right_depth {binary_tree_get_depth(root->right)}; //求右子树深度
-    return left_depth >= right_depth ?  // 深度为左右子树深度的较大值+1
-            left_depth+1 : right_depth+1;
-}
-
-template <typename T>
-void hbutds::binary_tree_level_order(const BinaryTreeNode<T>* const root){
-    if (root == nullptr) return;
-    queue<const BinaryTreeNode<T>*> que;
-    que.push(root);
-    while(! que.empty()){
-        auto curr {que.front()}; que.pop();
-        cout<<format("{} ", curr->data);
-        if(curr->left != nullptr) que.push(curr->left);
-        if(curr->right != nullptr) que.push(curr->right);
-    } 
-}
-
-template <typename T>
-void hbutds::binary_tree_print(
-        const BinaryTreeNode<T>* const root, 
-        unsigned int screen_width
-){
-    if(root == nullptr) return;
-    unsigned int curr_level{0};
-    unsigned int curr_indent{0};
-    queue<
-        std::pair<const BinaryTreeNode<T>*, array<unsigned int, 2>>
-    > que;
-    // 使用长度为2的array存储打印位置：[0]存储层号，[1]存储缩进
-    que.push({root, {0, screen_width/2}});
-
-    while(!que.empty()){
-        auto [curr_node, location] {que.front()}; que.pop();
-
-        //根据存储的位置打印元素
-        if(location[0] == curr_level){ // 与上一个元素同层
-            const auto indent {location[1] - curr_indent-1};
-            for(int i{0}; i<indent; ++i) cout<<" ";
-            cout<<curr_node->data;
-        }else{ // 与上一个元素不同层
-            cout<<"\n";
-            for(int i{0}; i<location[1]-1; ++i) cout<<" ";
-            cout<<curr_node->data;
-            curr_level = location[0];
-        }
-        curr_indent = location[1];
-
-        //计算左右孩子的位置，并存入队列
-        const auto offset {screen_width / 2 / (1<<(curr_level + 1))};
-        if(curr_node->left != nullptr){
-            que.push({curr_node->left, {curr_level+1, curr_indent-offset}});
-        }
-        if(curr_node->right != nullptr){
-            que.push({curr_node->right, {curr_level+1, curr_indent+offset}});
-        }
-    }
-    cout<<"\n";
+    if (left != nullptr) delete left;
+    if (right != nullptr) delete right;
 }
 
 #endif
