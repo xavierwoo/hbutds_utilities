@@ -19,5 +19,6 @@ add_library(hbutds_utilities STATIC
     binary_tree.h
     binary_tree.cpp
     tree.h
+    tree.cpp
 )
 target_include_directories(hbutds_utilities PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
