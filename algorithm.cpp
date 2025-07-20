@@ -113,20 +113,21 @@ namespace hbutds{
         place_recursion(0);
     }
 
-    // void EightQueenSolver::print() const {
-    //     cout<<format("There are {} solutions!\n", result.size());
+    void EightQueenSolver::print() const {
+        cout<<format("There are {} solutions!\n", result.size());
 
-    //     int no{0};
-    //     for(auto& sol : result){
-    //         cout<<format("No.{}:\n", no);
-    //         ++no;
+        int no{0};
+        for(auto& sol : result){
+            cout<<format("No.{}:\n", no);
+            ++no;
 
-    //         for(int y{0}; y<8; ++y){
-    //             for(int x{0}; x<8; ++x){
-    //                 if(x != sol[y]) cout<<" #";
-
-    //             }
-    //         }
-    //     }
-    // }
+            for(int y{0}; y<8; ++y){
+                for(int x{0}; x<8; ++x){
+                    if(x != sol[y]) cout<<" #";
+                    else cout<<" Q";
+                }
+                cout<<"\n";
+            }
+        }
+    }
 }
