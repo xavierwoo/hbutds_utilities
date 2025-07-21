@@ -21,7 +21,7 @@ void hbutds::EightQueenSolver::place_recursion(int y){
         Y[y] = x; //记录y行放置的位置
         
         //记录三条占用线
-        X[x] = 1;
+        X[x] = true;
         XaY[x+y] = true;
         XmY[x-y+7] = true;
 
@@ -29,7 +29,7 @@ void hbutds::EightQueenSolver::place_recursion(int y){
         place_recursion(y+1);
 
         //回溯
-        X[x] = 0;
+        X[x] = false;
         XaY[x+y] = false;
         XmY[x-y+7] = false;
     }
