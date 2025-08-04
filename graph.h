@@ -42,6 +42,9 @@ namespace hbutds{
 
         //删除边
         void remove_edge(const T&, const T&);
+
+        //删除顶点
+        void remove_vertex(const T&);
     }; 
 
     template <typename T>
@@ -124,6 +127,28 @@ void hbutds::Graph<T>::remove_edge(
         if((*iter).to == t_id.value()){
             edge_list.erase(iter);
             return;
+        }
+    }
+}
+
+template <typename T>
+void hbutds::Graph<T>::remove_vertex(const T& vertex){
+    auto v_id {get_vertex_id(vertex)};
+    if (! v_id.has_value()) return;
+
+    //标记顶点已删除
+    _vertices[v_id.value()] = std::nullopt;
+
+    //删除这个顶点的出边表
+    _adjacency_list[v_id.value()].clear();
+
+    //在其他顶点的出边表中删除以这个顶点为终点的边
+    for(auto& edge_list : _adjacency_list){
+        for(auto iter{edge_list.begin()}; iter!=edge_list.end(); ++iter){
+            if((*iter).to == v_id.value()){
+                edge_list.erase(iter);
+                break;
+            }
         }
     }
 }
