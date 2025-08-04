@@ -9,7 +9,7 @@ namespace hbutds{
         graph.add_vertex('b');
         assert(graph.get_vertex_id('a').value() == 0);
         assert(graph.get_vertex_id('b').value() == 1);
-
+        assert(graph.vertex_size() == 2);
         cout<<"@ graph::add_vertex works\n";
     }
 
@@ -21,7 +21,7 @@ namespace hbutds{
         assert(graph.get_edge_cost('a', 'b') == 2);
         assert(graph.get_edge_cost('b', 'a') 
             == std::numeric_limits<double>::infinity());
-        
+        assert(graph.edge_size() == 1);
         cout<<"@ graph::add_edge works\n";
     }
 
@@ -35,6 +35,7 @@ namespace hbutds{
 
         graph.remove_edge('a', 'b');
 
+        assert(graph.edge_size() == 1);
         assert(graph.get_edge_cost('a', 'b')
             == std::numeric_limits<double>::infinity());
         assert(graph.get_edge_cost('a', 'c') == 1);
