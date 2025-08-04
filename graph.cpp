@@ -53,6 +53,8 @@ namespace hbutds{
 
         graph.remove_vertex('b');
 
+        assert(graph.vertex_size() == 2);
+        assert(graph.edge_size() == 1);
         assert(graph.get_edge_cost_by_id(a_id, b_id) == std::numeric_limits<double>::infinity());
         assert(graph.get_edge_cost_by_id(b_id, c_id) == std::numeric_limits<double>::infinity());
         assert(graph.get_edge_cost_by_id(a_id, c_id) == 1);

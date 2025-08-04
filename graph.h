@@ -141,15 +141,19 @@ void hbutds::Graph<T>::remove_vertex(const T& vertex){
 
     //标记顶点已删除
     _vertices[v_id.value()] = std::nullopt;
+    --_vertex_size;
 
     //删除这个顶点的出边表
+    _edge_size -= _adjacency_list[v_id.value()].size();
     _adjacency_list[v_id.value()].clear();
+
 
     //在其他顶点的出边表中删除以这个顶点为终点的边
     for(auto& edge_list : _adjacency_list){
         for(auto iter{edge_list.begin()}; iter!=edge_list.end(); ++iter){
             if((*iter).to == v_id.value()){
                 edge_list.erase(iter);
+                --_edge_size;
                 break;
             }
         }
