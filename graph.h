@@ -125,6 +125,7 @@ void hbutds::Graph<T>::remove_edge(
     for(auto iter{edge_list.begin()}; iter!=edge_list.end(); ++iter){
         if((*iter).to == t_id.value()){
             edge_list.erase(iter);
+            --_edge_size;
             return;
         }
     }

@@ -35,6 +35,7 @@ namespace hbutds{
 
         graph.remove_edge('a', 'b');
 
+        assert(graph.edge_size() == 1);
         assert(graph.get_edge_cost('a', 'b')
             == std::numeric_limits<double>::infinity());
         assert(graph.get_edge_cost('a', 'c') == 1);
