@@ -24,9 +24,28 @@ namespace hbutds{
         
         cout<<"@ graph::add_edge works\n";
     }
+
+    void test_remove_edge(){
+        Graph<char> graph;
+        graph.add_vertex('a');
+        graph.add_vertex('b');
+        graph.add_vertex('c');
+        graph.add_edge('a', 'b', 2);
+        graph.add_edge('a', 'c', 1);
+
+        graph.remove_edge('a', 'b');
+
+        assert(graph.get_edge_cost('a', 'b')
+            == std::numeric_limits<double>::infinity());
+        assert(graph.get_edge_cost('a', 'c') == 1);
+        cout<<"@ graph::remove_edge works\n";
+    }
+
     void graph_works(){
         test_add_vertex();
         test_add_edge();
+        test_remove_edge();
+
         cout<<"hbutds::Graph works!\n";
     }
 }
