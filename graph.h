@@ -69,6 +69,7 @@ auto hbutds::Graph<T>::add_vertex(const T& vertex) -> unsigned int{
     auto id{_vertices.size()};
     _vertices.push_back(vertex);
     _adjacency_list.push_back({});
+    ++_vertex_size;
     return id;
 }
 
@@ -84,6 +85,7 @@ void hbutds::Graph<T>::add_edge(
 
     auto& edge_list{_adjacency_list[s_id.value()]}; //获得起点的出边表
     edge_list.push_back({.to=t_id.value(), .cost=cost}); //插入新的边
+    ++_edge_size;
 }
 
 template <typename T>
