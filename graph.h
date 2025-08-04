@@ -42,9 +42,6 @@ namespace hbutds{
 
         //删除边
         void remove_edge(const T&, const T&);
-
-        //使用顶点id删除边
-        void remove_edge_by_id(const unsigned int, const unsigned int);
     }; 
 
     template <typename T>
@@ -114,20 +111,6 @@ auto hbutds::Graph<T>::get_edge_cost(
     return get_edge_cost_by_id(s_id.value(), t_id.value());
 }
 
-
-template <typename T>
-void hbutds::Graph<T>::remove_edge_by_id(
-    const unsigned int s_id, const unsigned int t_id
-) {
-    auto& edge_list{_adjacency_list[s_id]};
-    for(auto iter{edge_list.begin()}; iter!=edge_list.end(); ++iter){
-        if((*iter).to == t_id){
-            edge_list.erase(iter);
-            return;
-        }
-    }
-}
-
 template <typename T>
 void hbutds::Graph<T>::remove_edge(
         const T& source, const T& target
@@ -136,7 +119,13 @@ void hbutds::Graph<T>::remove_edge(
     auto t_id {get_vertex_id(target)};
 
     assert(s_id.has_value() && t_id.has_value()); //确认端点存在
-    remove_edge_by_id(s_id.value(), t_id.value());
+    auto& edge_list{_adjacency_list[s_id.value()]};
+    for(auto iter{edge_list.begin()}; iter!=edge_list.end(); ++iter){
+        if((*iter).to == t_id.value()){
+            edge_list.erase(iter);
+            return;
+        }
+    }
 }
 
 #endif
