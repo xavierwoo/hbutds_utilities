@@ -42,6 +42,9 @@ namespace hbutds{
         auto begin() const -> const_iterator;
         auto end() const -> const_iterator;
         auto operator[](const unsigned int) const -> const T&;
+
+        // 后续课程需要使用
+        void clear();
     };
 
     template <typename T>
@@ -286,6 +289,16 @@ auto hbutds::vector<T>::const_iterator::operator*() const -> const T&{
 template <typename T>
 auto hbutds::vector<T>::const_iterator::operator!=(const const_iterator o) const -> bool{
     return _ptr != o._ptr;
+}
+
+
+template <typename T>
+void hbutds::vector<T>::clear(){
+    for(int i{0}; i<_size; ++i){
+        _data[i].~T();
+    }
+
+    _size = 0;
 }
 
 #endif
