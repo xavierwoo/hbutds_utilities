@@ -3,6 +3,42 @@
 using std::cout;
 namespace hbutds{
 
+    auto generate_test_graph() -> Graph<char>{
+        Graph<char> graph;
+        graph.add_vertex('a');
+        graph.add_vertex('b');
+        graph.add_vertex('c');
+        graph.add_vertex('d');
+        graph.add_vertex('e');
+        graph.add_vertex('f');
+
+        graph.add_edge('a', 'b', 3);
+        graph.add_edge('b', 'a', 3);
+
+        graph.add_edge('a', 'e', 1);
+        graph.add_edge('e', 'a', 1);
+
+        graph.add_edge('b', 'c', 6);
+        graph.add_edge('c', 'b', 6);
+
+        graph.add_edge('b', 'd', 1);
+        graph.add_edge('d', 'b', 1);
+
+        graph.add_edge('b', 'e', 1);
+        graph.add_edge('e', 'b', 1);
+
+        graph.add_edge('c', 'd', 1);
+        graph.add_edge('d', 'c', 1);
+
+        graph.add_edge('d', 'e', 4);
+        graph.add_edge('e', 'd', 4);
+
+        graph.add_edge('f', 'e', 2);
+        graph.add_edge('e', 'f', 2);
+
+        return graph;
+    }
+
     void test_add_vertex(){
         Graph<char> graph;
         graph.add_vertex('a');

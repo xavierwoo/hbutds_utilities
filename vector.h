@@ -45,6 +45,7 @@ namespace hbutds{
 
         // 后续课程需要使用
         void clear();
+        vector(const unsigned int, const T&);
     };
 
     template <typename T>
@@ -299,6 +300,14 @@ void hbutds::vector<T>::clear(){
     }
 
     _size = 0;
+}
+
+template <typename T>
+hbutds::vector<T>::vector(const unsigned int count, const T& value){
+    reserve(count);
+    for(int i=0; i<count; ++i){
+        push_back(value);
+    }
 }
 
 #endif

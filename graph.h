@@ -5,6 +5,10 @@
 #include <optional>
 #include <cassert>
 #include <limits>
+#include <iostream>
+#include <format>
+
+using std::cout, std::format;
 
 namespace hbutds{
     
@@ -17,7 +21,6 @@ namespace hbutds{
 
         unsigned int _vertex_size{0}; //顶点个数
         unsigned int _edge_size{0}; // 边个数
-
         
     public:
 
@@ -45,6 +48,12 @@ namespace hbutds{
 
         //删除顶点
         void remove_vertex(const T&);
+
+
+        /*图的遍历算法*/
+        // 深度优先递归算法
+        void dfs_print_recursive(const T&) const;
+        void dfs_print_recur(const unsigned int, vector<bool>&) const;
     }; 
 
     template <typename T>
@@ -54,6 +63,7 @@ namespace hbutds{
     };
 
     void graph_works();
+    auto generate_test_graph() -> Graph<char>;
 }
 
 
@@ -73,8 +83,8 @@ template <typename T>
 auto hbutds::Graph<T>::add_vertex(const T& vertex) -> unsigned int{
     assert(! get_vertex_id(vertex).has_value());
     auto id{_vertices.size()};
-    _vertices.push_back(vertex);
-    _adjacency_list.push_back({});
+    _vertices.push_back(vertex); // 插入顶点
+    _adjacency_list.push_back({}); // 插入空出边表
     ++_vertex_size;
     return id;
 }
@@ -126,7 +136,7 @@ void hbutds::Graph<T>::remove_edge(
     assert(s_id.has_value() && t_id.has_value()); //确认端点存在
     auto& edge_list{_adjacency_list[s_id.value()]};
     for(auto iter{edge_list.begin()}; iter!=edge_list.end(); ++iter){
-        if((*iter).to == t_id.value()){
+        if((*iter).to == t_id.value()){ //查找并删除边
             edge_list.erase(iter);
             --_edge_size;
             return;
@@ -144,9 +154,8 @@ void hbutds::Graph<T>::remove_vertex(const T& vertex){
     --_vertex_size;
 
     //删除这个顶点的出边表
-    _edge_size -= _adjacency_list[v_id.value()].size();
     _adjacency_list[v_id.value()].clear();
-
+    _edge_size -= _adjacency_list[v_id.value()].size();
 
     //在其他顶点的出边表中删除以这个顶点为终点的边
     for(auto& edge_list : _adjacency_list){
@@ -157,6 +166,27 @@ void hbutds::Graph<T>::remove_vertex(const T& vertex){
                 break;
             }
         }
+    }
+}
+
+template <typename T>
+void hbutds::Graph<T>::dfs_print_recursive(const T& vertex) const {
+    auto id{get_vertex_id(vertex)};
+    assert(id.has_value());
+    vector<bool> visited(_vertex_size, false);
+    dfs_print_recur(id.value(), visited);
+}
+
+template <typename T>
+void hbutds::Graph<T>::dfs_print_recur(
+        const unsigned int v_id, vector<bool>& visited
+) const {
+    cout<<format("{} ", _vertices[v_id].value());
+    visited[v_id] = true;
+    for(auto& e : _adjacency_list[v_id]){
+        auto neighbot {e.to};
+        if(visited[e.to])continue;
+        dfs_print_recur(e.to, visited);
     }
 }
 
