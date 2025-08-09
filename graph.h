@@ -202,15 +202,18 @@ void hbutds::Graph<T>::dfs_print_iterative(
     assert(start_id.has_value());
 
     vector<bool> visited(_vertices.size(), false);
-
     stack<unsigned int> stk;
     stk.push(start_id.value());
 
     while(!stk.empty()){
         const auto v_id {stk.top()}; stk.pop();
-        if (visited[v_id]) continue;
+        if (visited[v_id]) continue; // 跳过已访问的顶点
+
+        //访问并标记顶点
         cout<<format("{} ", _vertices[v_id].value());
         visited[v_id] = true;
+
+        //将未访问的邻接点入栈
         for(const auto& e : _adjacency_list[v_id]){
             const auto neighbor{e.to};
             if(visited[neighbor]) continue;
