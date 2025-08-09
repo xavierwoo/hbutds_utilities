@@ -58,6 +58,10 @@ namespace hbutds{
 
         // 深度优先迭代算法
         void dfs_print_iterative(const T&) const;
+
+        // 判断连通性
+        auto is_connected() const -> bool;
+        auto dfs_count(const unsigned int, vector<bool>&) const -> unsigned int;
     }; 
 
     template <typename T>
@@ -220,6 +224,29 @@ void hbutds::Graph<T>::dfs_print_iterative(
             stk.push(neighbor);
         }
     }
+}
+
+template <typename T>
+auto hbutds::Graph<T>::is_connected() const -> bool {
+    unsigned int start_id{0};
+    while(! _vertices[start_id].has_value()) ++start_id; //找到第一个可行id
+    assert(start_id < _vertices.size());
+    vector<bool> visited(_vertices.size(), false);
+    return dfs_count(start_id, visited) == _vertex_size;
+}
+
+template <typename T>
+auto hbutds::Graph<T>::dfs_count(
+        const unsigned int v_id, vector<bool>& visited
+) const -> unsigned int{
+    unsigned int count{1};
+    visited[v_id] = true;
+    for(const auto& e : _adjacency_list[v_id]){
+        const auto neighbor {e.to};
+        if(visited[neighbor])continue;
+        count += dfs_count(neighbor, visited);
+    }
+    return count;
 }
 
 #endif
