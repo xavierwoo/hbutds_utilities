@@ -171,10 +171,10 @@ void hbutds::Graph<T>::remove_vertex(const T& vertex){
 
 template <typename T>
 void hbutds::Graph<T>::dfs_print_recursive(const T& vertex) const {
-    auto id{get_vertex_id(vertex)};
-    assert(id.has_value());
+    const auto v_id{get_vertex_id(vertex)};
+    assert(v_id.has_value());
     vector<bool> visited(_vertices.size(), false);
-    dfs_print_recur(id.value(), visited);
+    dfs_print_recur(v_id.value(), visited);
 }
 
 template <typename T>
