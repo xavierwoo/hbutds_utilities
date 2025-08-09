@@ -7,6 +7,7 @@
 #include <limits>
 #include <iostream>
 #include <format>
+#include "stack.h"
 
 using std::cout, std::format;
 
@@ -54,6 +55,9 @@ namespace hbutds{
         // 深度优先递归算法
         void dfs_print_recursive(const T&) const;
         void dfs_print_recur(const unsigned int, vector<bool>&) const;
+
+        // 深度优先迭代算法
+        void dfs_print_iterative(const T&) const;
     }; 
 
     template <typename T>
@@ -187,6 +191,31 @@ void hbutds::Graph<T>::dfs_print_recur(
         auto neighbot {e.to};
         if(visited[e.to])continue;
         dfs_print_recur(e.to, visited);
+    }
+}
+
+template <typename T>
+void hbutds::Graph<T>::dfs_print_iterative(
+        const T& vertex
+) const {
+    const auto start_id{get_vertex_id(vertex)};
+    assert(start_id.has_value());
+
+    vector<bool> visited(_vertices.size(), false);
+
+    stack<unsigned int> stk;
+    stk.push(start_id.value());
+
+    while(!stk.empty()){
+        const auto v_id {stk.top()}; stk.pop();
+        if (visited[v_id]) continue;
+        cout<<format("{} ", _vertices[v_id].value());
+        visited[v_id] = true;
+        for(const auto& e : _adjacency_list[v_id]){
+            const auto neighbor{e.to};
+            if(visited[neighbor]) continue;
+            stk.push(neighbor);
+        }
     }
 }
 
