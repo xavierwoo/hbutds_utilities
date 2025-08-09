@@ -183,10 +183,10 @@ void hbutds::Graph<T>::dfs_print_recur(
 ) const {
     cout<<format("{} ", _vertices[v_id].value());
     visited[v_id] = true;
-    for(auto& e : _adjacency_list[v_id]){
-        auto neighbot {e.to};
-        if(visited[e.to])continue;
-        dfs_print_recur(e.to, visited);
+    for(const auto& e : _adjacency_list[v_id]){
+        const auto neighbor {e.to};
+        if(visited[neighbor])continue;
+        dfs_print_recur(neighbor, visited);
     }
 }
 
