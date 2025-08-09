@@ -173,7 +173,7 @@ template <typename T>
 void hbutds::Graph<T>::dfs_print_recursive(const T& vertex) const {
     auto id{get_vertex_id(vertex)};
     assert(id.has_value());
-    vector<bool> visited(_vertex_size, false);
+    vector<bool> visited(_vertices.size(), false);
     dfs_print_recur(id.value(), visited);
 }
 
