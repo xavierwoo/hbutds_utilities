@@ -175,10 +175,10 @@ void hbutds::Graph<T>::remove_vertex(const T& vertex){
 
 template <typename T>
 void hbutds::Graph<T>::dfs_print_recursive(const T& vertex) const {
-    auto id{get_vertex_id(vertex)};
-    assert(id.has_value());
+    const auto v_id{get_vertex_id(vertex)};
+    assert(v_id.has_value());
     vector<bool> visited(_vertices.size(), false);
-    dfs_print_recur(id.value(), visited);
+    dfs_print_recur(v_id.value(), visited);
 }
 
 template <typename T>
@@ -187,10 +187,10 @@ void hbutds::Graph<T>::dfs_print_recur(
 ) const {
     cout<<format("{} ", _vertices[v_id].value());
     visited[v_id] = true;
-    for(auto& e : _adjacency_list[v_id]){
-        auto neighbot {e.to};
-        if(visited[e.to])continue;
-        dfs_print_recur(e.to, visited);
+    for(const auto& e : _adjacency_list[v_id]){
+        const auto neighbor {e.to};
+        if(visited[neighbor])continue;
+        dfs_print_recur(neighbor, visited);
     }
 }
 
