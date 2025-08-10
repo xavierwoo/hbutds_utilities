@@ -8,6 +8,7 @@
 #include <iostream>
 #include <format>
 #include "stack.h"
+#include <algorithm>
 
 using std::cout, std::format;
 
@@ -62,6 +63,17 @@ namespace hbutds{
         // 判断连通性
         auto is_connected() const -> bool;
         auto dfs_count(const unsigned int, vector<bool>&) const -> unsigned int;
+
+        // 获得深度优先路径
+        auto get_dfs_path(const T&, const T&) const -> vector<T>;
+        void get_dfs_tree(
+                const unsigned int, vector<bool>&, 
+                vector<std::optional<unsigned int>>&) const;
+
+        // 从生成树中获得路径
+        auto get_path_from_tree(
+                const unsigned int, const unsigned int, 
+                vector<std::optional<unsigned int>>&) const -> vector<T>;
     }; 
 
     template <typename T>
@@ -247,6 +259,65 @@ auto hbutds::Graph<T>::dfs_count(
         count += dfs_count(neighbor, visited);
     }
     return count;
+}
+
+template <typename T>
+auto hbutds::Graph<T>::get_dfs_path(
+        const T& start, const T& end
+) const -> vector<T>{
+    auto start_id {get_vertex_id(start)};
+    assert(start_id.has_value());
+    auto end_id {get_vertex_id(end)};
+    assert(end_id.has_value());
+
+    vector<bool> visisted(_vertices.size(), false);
+    vector<std::optional<unsigned int>> tree(_vertices.size(), std::nullopt);
+
+    get_dfs_tree(start_id.value(), visisted, tree);
+    return get_path_from_tree(start_id.value(), end_id.value(), tree);
+}
+
+template <typename T>
+void hbutds::Graph<T>::get_dfs_tree(
+        const unsigned int v_id,
+        vector<bool>& visited,
+        vector<std::optional<unsigned int>>& tree
+) const {
+    visited[v_id] = true;
+    for(const auto& e : _adjacency_list[v_id]){
+        if(visited[e.to]) continue;
+        tree[e.to] = std::optional(v_id);
+        get_dfs_tree(e.to, visited, tree);
+    }
+}
+
+template <typename T>
+auto hbutds::Graph<T>::get_path_from_tree(
+        const unsigned int start_id,
+        const unsigned int end_id,
+        vector<std::optional<unsigned int>>& tree
+) const -> vector<T>{
+    vector<T> path;
+    std::optional curr(end_id);
+    while(curr.has_value()){
+        path.push_back(_vertices[curr.value()].value());
+        curr = tree[curr.value()];
+    }
+
+    // 没有路径则清空path
+    if( path[path.size() - 1] != _vertices[start_id].value() ){
+        path.clear();
+        return path;
+    }
+
+    // 反转path
+    for(auto i{0}; i<path.size()/2; ++i){
+        auto tmp {path[i]};
+        path[i] = path[path.size() - 1 - i];
+        path[path.size() - 1 - i] = tmp;
+    }//如果使用 std::vector，这里可以使用std::reverse函数代替这个循环
+
+    return path;
 }
 
 #endif
