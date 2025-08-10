@@ -8,7 +8,7 @@
 #include <iostream>
 #include <format>
 #include "stack.h"
-#include <algorithm>
+#include "queue.h"
 
 using std::cout, std::format;
 
@@ -74,6 +74,9 @@ namespace hbutds{
         auto get_path_from_tree(
                 const unsigned int, const unsigned int, 
                 vector<std::optional<unsigned int>>&) const -> vector<T>;
+
+        // 广度优先迭代算法
+        void bfs_print_iterative(const T&) const;
     }; 
 
     template <typename T>
@@ -320,4 +323,33 @@ auto hbutds::Graph<T>::get_path_from_tree(
     return path;
 }
 
+template <typename T>
+void hbutds::Graph<T>::bfs_print_iterative(
+        const T& vertex
+) const {
+    const auto start_id{get_vertex_id(vertex)};
+    assert(start_id.has_value());
+
+    vector<bool> will_visit(_vertices.size(), false);//将被访问标记
+    queue<unsigned int> que;
+
+    will_visit[start_id.value()] = true;
+    que.push(start_id.value());
+    
+
+    while(!que.empty()){
+        const auto v_id {que.front()}; que.pop();
+
+        //访问顶点
+        cout<<format("{} ", _vertices[v_id].value());
+
+        //将未标记的邻接点入队列
+        for(const auto& e : _adjacency_list[v_id]){
+            const auto neighbor{e.to};
+            if(will_visit[neighbor]) continue;
+            will_visit[neighbor] = true; // 标记顶点
+            que.push(neighbor);
+        }
+    }
+}
 #endif
