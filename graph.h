@@ -77,6 +77,10 @@ namespace hbutds{
 
         // 广度优先迭代算法
         void bfs_print_iterative(const T&) const;
+
+        // 获得广度优先路径
+        auto get_bfs_path(const T&, const T&) const -> vector<T>;
+        auto get_bfs_tree(const unsigned int) const -> vector<std::optional<unsigned int>>;
     }; 
 
     template <typename T>
@@ -336,7 +340,6 @@ void hbutds::Graph<T>::bfs_print_iterative(
     will_visit[start_id.value()] = true;
     que.push(start_id.value());
     
-
     while(!que.empty()){
         const auto v_id {que.front()}; que.pop();
 
@@ -352,4 +355,47 @@ void hbutds::Graph<T>::bfs_print_iterative(
         }
     }
 }
+
+template <typename T>
+auto hbutds::Graph<T>::get_bfs_path(
+        const T& start, const T& end
+) const -> vector<T> {
+    auto start_id {get_vertex_id(start)};
+    assert(start_id.has_value());
+    auto end_id {get_vertex_id(end)};
+    assert(end_id.has_value());
+
+    auto tree {get_bfs_tree(start_id.value())}; //获得广度优先生成树
+    return get_path_from_tree(start_id.value(), end_id.value(), tree);
+}
+
+template <typename T>
+auto hbutds::Graph<T>::get_bfs_tree(
+        const unsigned int start_id
+) const -> vector<std::optional<unsigned int>>{
+    vector<bool> will_visit(_vertices.size(), false);//将被访问标记
+    queue<unsigned int> que;
+    vector<std::optional<unsigned int>> tree(_vertices.size(), std::nullopt);
+
+    will_visit[start_id] = true;
+    que.push(start_id);
+    
+    while(!que.empty()){
+        const auto v_id {que.front()}; que.pop();
+
+        //将未标记的邻接点入队列
+        for(const auto& e : _adjacency_list[v_id]){
+            const auto neighbor{e.to};
+            if(will_visit[neighbor]) continue;
+            will_visit[neighbor] = true; // 标记顶点
+
+            //记录顶点在生成树中的父亲
+            tree[neighbor] = std::optional(v_id);
+            que.push(neighbor);
+        }
+    }
+    return tree;
+}
+    
+
 #endif
