@@ -27,14 +27,14 @@ namespace hbutds{
         graph.add_edge('b', 'e', 1);
         graph.add_edge('e', 'b', 1);
 
-        graph.add_edge('c', 'd', 5);
-        graph.add_edge('d', 'c', 5);
+        graph.add_edge('c', 'd', 4);
+        graph.add_edge('d', 'c', 4);
 
         graph.add_edge('d', 'e', 3);
         graph.add_edge('e', 'd', 3);
 
-        graph.add_edge('f', 'e', 4);
-        graph.add_edge('e', 'f', 4);
+        graph.add_edge('f', 'e', 5);
+        graph.add_edge('e', 'f', 5);
 
         return graph;
     }
