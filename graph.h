@@ -439,12 +439,12 @@ auto hbutds::Graph<T>::prim(
         visited[curr_id] = true;
 
         for(const auto& e : _adjacency_list[curr_id]){
-            const auto neighbor {e.to};
-            if(visited[neighbor] || e.cost >= distance[neighbor]) continue;
+            const auto u {e.to};
+            if(visited[u] || e.cost >= distance[u]) continue;
 
             //更新这个点到生成树的距离和连接边
-            distance[neighbor] = e.cost;
-            tree[neighbor] = curr_id;
+            distance[u] = e.cost;
+            tree[u] = curr_id;
         }
     }
 
