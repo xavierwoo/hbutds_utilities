@@ -444,7 +444,7 @@ auto hbutds::Graph<T>::prim(
 
             //更新这个点到生成树的距离和连接边
             distance[u] = e.cost;
-            tree[u] = curr_id;
+            tree[u] = std::optional(curr_id);
         }
     }
 
