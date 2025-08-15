@@ -81,6 +81,13 @@ namespace hbutds{
         // 获得广度优先路径
         auto get_bfs_path(const T&, const T&) const -> vector<T>;
         auto get_bfs_tree(const unsigned int) const -> vector<std::optional<unsigned int>>;
+
+
+        /*最小生成树*/
+        //普里姆算法
+        auto prim(const T&) const -> std::pair<vector<std::optional<unsigned int>>, double>;
+        auto find_min_unvisited_v(const vector<bool>&, const vector<double>&) 
+                const -> std::optional<unsigned int>;
     }; 
 
     template <typename T>
@@ -372,7 +379,7 @@ auto hbutds::Graph<T>::get_bfs_path(
 template <typename T>
 auto hbutds::Graph<T>::get_bfs_tree(
         const unsigned int start_id
-) const -> vector<std::optional<unsigned int>>{
+) const -> vector<std::optional<unsigned int>> {
     vector<bool> will_visit(_vertices.size(), false);//将被访问标记
     queue<unsigned int> que;
     vector<std::optional<unsigned int>> tree(_vertices.size(), std::nullopt);
@@ -397,5 +404,55 @@ auto hbutds::Graph<T>::get_bfs_tree(
     return tree;
 }
     
+template <typename T>
+auto hbutds::Graph<T>::prim(
+        const T& start
+) const -> std::pair<vector<std::optional<unsigned int>>, double> {
+    auto start_id {get_vertex_id(start)};
+    assert(start_id.has_value());
+
+    vector<std::optional<unsigned int>> tree(_vertices.size(), std::nullopt);
+    vector<double> distance(_vertices.size(), std::numeric_limits<double>::infinity());
+    vector<bool> visited(_vertices.size(), false);
+    double tree_weight{0.0};
+
+    distance[start_id.value()] = 0.0; // 起点一定在生成树树中，距离为0
+
+    for(int i=0; i<_vertex_size; ++i){
+        const auto curr {find_min_unvisited_v(visited, distance)};
+        if(!curr.has_value()) break;
+        auto curr_id {curr.value()};
+        tree_weight += distance[curr_id];
+        visited[curr_id] = true;
+
+        for(const auto& e : _adjacency_list[curr_id]){
+            const auto neighbor {e.to};
+            if(visited[neighbor] || e.cost >= distance[neighbor]) continue;
+            distance[neighbor] = e.cost;
+            tree[neighbor] = curr_id;
+        }
+    }
+
+    return std::make_pair(tree, tree_weight);
+}
+
+template <typename T>
+auto hbutds::Graph<T>::find_min_unvisited_v(
+        const vector<bool>& visited,
+        const vector<double>& distance
+) const -> std::optional<unsigned int> {
+    unsigned int min_index{0};
+    double min{std::numeric_limits<double>::infinity()};
+
+    for(auto i{0}; i<visited.size(); ++i){
+        if(!visited[i] && distance[i] < min){
+            min = distance[i];
+            min_index = i;
+        }
+    }
+
+    return min == std::numeric_limits<double>::infinity() ?
+            std::nullopt : std::optional(min_index);
+}
 
 #endif
