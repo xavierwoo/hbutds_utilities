@@ -26,6 +26,9 @@ namespace hbutds{
 
         //获取顶点编号
         auto get_vertex_id(const T&) const -> std::optional<unsigned int>;
+        
+        //通过顶点编号获取顶点
+        auto get_vertex(const unsigned int) const -> const T&;
 
         //添加顶点
         auto add_vertex(const T&) -> unsigned int;
@@ -67,6 +70,12 @@ auto hbutds::Graph<T>::get_vertex_id(
         }
     }
     return std::nullopt;
+}
+
+template <typename T>
+auto hbutds::Graph<T>::get_vertex(const unsigned int id) const -> const T&{
+    assert(_vertices[id].has_value());
+    return _vertices[id].value();
 }
 
 template <typename T>
