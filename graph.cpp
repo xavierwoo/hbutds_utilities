@@ -18,8 +18,8 @@ namespace hbutds{
         graph.add_edge('a', 'e', 1);
         graph.add_edge('e', 'a', 1);
 
-        graph.add_edge('b', 'c', 6);
-        graph.add_edge('c', 'b', 6);
+        graph.add_edge('b', 'c', 7);
+        graph.add_edge('c', 'b', 7);
 
         graph.add_edge('b', 'd', 1);
         graph.add_edge('d', 'b', 1);
@@ -27,14 +27,14 @@ namespace hbutds{
         graph.add_edge('b', 'e', 1);
         graph.add_edge('e', 'b', 1);
 
-        graph.add_edge('c', 'd', 1);
-        graph.add_edge('d', 'c', 1);
+        graph.add_edge('c', 'd', 5);
+        graph.add_edge('d', 'c', 5);
 
-        graph.add_edge('d', 'e', 4);
-        graph.add_edge('e', 'd', 4);
+        graph.add_edge('d', 'e', 3);
+        graph.add_edge('e', 'd', 3);
 
-        graph.add_edge('f', 'e', 2);
-        graph.add_edge('e', 'f', 2);
+        graph.add_edge('f', 'e', 4);
+        graph.add_edge('e', 'f', 4);
 
         return graph;
     }

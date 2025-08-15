@@ -420,9 +420,11 @@ auto hbutds::Graph<T>::prim(
     auto start_id {get_vertex_id(start)};
     assert(start_id.has_value());
 
-    vector<std::optional<unsigned int>> tree(_vertices.size(), std::nullopt);
-    vector<double> distance(_vertices.size(), std::numeric_limits<double>::infinity());
-    vector<bool> visited(_vertices.size(), false);
+    vector<std::optional<unsigned int>> tree(
+            _vertices.size(), std::nullopt); // 父亲表示法存储最小生成树
+    vector<double> distance(_vertices.size(), 
+            std::numeric_limits<double>::infinity()); // 树外点到树的距离
+    vector<bool> visited(_vertices.size(), false); //访问标记
     double tree_weight{0.0};
 
     distance[start_id.value()] = 0.0; // 起点一定在生成树树中，距离为0
@@ -430,6 +432,8 @@ auto hbutds::Graph<T>::prim(
     for(int i=0; i<_vertex_size; ++i){
         const auto curr {find_min_unvisited_v(visited, distance)};
         if(!curr.has_value()) break;
+
+        // 将当前点添加到生成树中，tree数组中已记录了连接边
         auto curr_id {curr.value()};
         tree_weight += distance[curr_id];
         visited[curr_id] = true;
@@ -437,6 +441,8 @@ auto hbutds::Graph<T>::prim(
         for(const auto& e : _adjacency_list[curr_id]){
             const auto neighbor {e.to};
             if(visited[neighbor] || e.cost >= distance[neighbor]) continue;
+
+            //更新这个点到生成树的距离和连接边
             distance[neighbor] = e.cost;
             tree[neighbor] = curr_id;
         }
