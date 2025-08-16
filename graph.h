@@ -10,6 +10,7 @@
 #include "stack.h"
 #include "queue.h"
 #include <utility>
+#include "algorithm.h"
 
 using std::cout, std::format;
 
@@ -92,6 +93,13 @@ namespace hbutds{
         auto prim(const T&) const -> std::pair<vector<std::optional<unsigned int>>, double>;
         auto find_min_unvisited_v(const vector<bool>&, const vector<double>&) 
                 const -> std::optional<unsigned int>;
+
+        //克鲁斯卡尔算法
+        auto kruskal() 
+                const -> std::pair<vector<std::tuple<unsigned int, unsigned int, double>>, double>;
+        //获得所有无向边信息，只能用于无向图（双向图）
+        auto get_all_undirected_edges_info() 
+                const -> vector<std::tuple<unsigned int, unsigned int, double>>;
     }; 
 
     template <typename T>
@@ -471,4 +479,65 @@ auto hbutds::Graph<T>::find_min_unvisited_v(
             std::nullopt : std::optional(min_index);
 }
 
+
+struct EdgeCompare{
+    auto operator()(
+            std::tuple<unsigned int, unsigned int, double>& a,
+            std::tuple<unsigned int, unsigned int, double>& b
+    ) -> bool{
+        return std::get<2>(a) > std::get<2>(b);
+    }
+};
+
+template <typename T>   
+auto hbutds::Graph<T>::kruskal(
+)const -> std::pair<vector<std::tuple<unsigned int, unsigned int, double>>, double>{
+    vector<std::tuple<unsigned int, unsigned int, double>> tree_edges;
+    double tree_weight{0.0};
+
+    auto all_edges {get_all_undirected_edges_info()};//获取所有无向边
+    make_heap(all_edges, EdgeCompare()); //所有边信息整理成堆
+
+    vector<int> d_set(_vertices.size(), -1);//初始化并查集
+
+    while(all_edges.size() > 0){
+        //从堆中取权值最小边
+        auto e {all_edges[0]};
+        pop_heap(all_edges, EdgeCompare());
+        all_edges.erase(all_edges.end() + (-1));
+
+        auto [i,j,cost] {e};
+        while(d_set[i] >= 0) i=d_set[i]; // 找到起点所在树的代表顶点
+        while(d_set[j] >= 0) j=d_set[j]; // 找到终点所在树的代表顶点
+
+        if(i == j) continue; //起点和终点属于同一个树
+
+        if(i < j){ //将终点所在集合并到起点所在集合
+            d_set[i] += d_set[j];
+            d_set[j] = i;
+        }else{ //将起点所在集合并到终点所在集合
+            d_set[j] += d_set[i];
+            d_set[i] = j;
+        }
+        tree_edges.push_back(e);
+        tree_weight += cost;
+    }
+
+
+    return std::make_pair(tree_edges, tree_weight);
+}
+
+template <typename T>
+auto hbutds::Graph<T>::get_all_undirected_edges_info(
+)const -> vector<std::tuple<unsigned int, unsigned int, double>>{
+    vector<std::tuple<unsigned int, unsigned int, double>> all_edges;
+    for(int i{0}; i<_vertices.size(); ++i){
+        if( ! _vertices[i].has_value()) continue;
+        for(const auto& e : _adjacency_list[i]){
+            if(e.to < i)continue;
+            all_edges.push_back(std::make_tuple(i, e.to, e.cost));
+        }
+    }
+    return all_edges;
+}
 #endif
