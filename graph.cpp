@@ -21,11 +21,11 @@ namespace hbutds{
         graph.add_edge('b', 'c', 7);
         graph.add_edge('c', 'b', 7);
 
-        graph.add_edge('b', 'd', 2);
-        graph.add_edge('d', 'b', 2);
+        graph.add_edge('b', 'd', 1);
+        graph.add_edge('d', 'b', 1);
 
-        graph.add_edge('b', 'e', 1);
-        graph.add_edge('e', 'b', 1);
+        graph.add_edge('b', 'e', 2);
+        graph.add_edge('e', 'b', 2);
 
         graph.add_edge('c', 'd', 4);
         graph.add_edge('d', 'c', 4);
