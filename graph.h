@@ -9,6 +9,7 @@
 #include <format>
 #include "stack.h"
 #include "queue.h"
+#include <utility>
 
 using std::cout, std::format;
 
@@ -456,7 +457,7 @@ auto hbutds::Graph<T>::find_min_unvisited_v(
         const vector<bool>& visited,
         const vector<double>& distance
 ) const -> std::optional<unsigned int> {
-    unsigned int min_index{0};
+    unsigned int min_index{std::numeric_limits<unsigned int>::max()};
     double min{std::numeric_limits<double>::infinity()};
 
     for(auto i{0}; i<visited.size(); ++i){
