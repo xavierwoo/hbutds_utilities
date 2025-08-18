@@ -510,8 +510,7 @@ auto hbutds::Graph<T>::kruskal(
         while(d_set[i] >= 0) i=d_set[i]; // 找到起点所在树的代表顶点
         while(d_set[j] >= 0) j=d_set[j]; // 找到终点所在树的代表顶点
 
-        if(i == j) continue; //起点和终点属于同一个树
-
+        if(i == j) continue; //起点和终点属于同一个树，忽略这条边
         if(i < j){ //将终点所在集合并到起点所在集合
             d_set[i] += d_set[j];
             d_set[j] = i;
@@ -521,9 +520,8 @@ auto hbutds::Graph<T>::kruskal(
         }
         tree_edges.push_back(e);
         tree_weight += cost;
+        if(tree_edges.size() == _vertex_size)break;
     }
-
-
     return std::make_pair(tree_edges, tree_weight);
 }
 
@@ -540,4 +538,5 @@ auto hbutds::Graph<T>::get_all_undirected_edges_info(
     }
     return all_edges;
 }
+
 #endif
