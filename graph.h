@@ -74,6 +74,14 @@ namespace hbutds{
         auto get_path_from_tree(
                 const unsigned int, const unsigned int, 
                 const vector<std::optional<unsigned int>>&) const -> vector<T>;
+
+        // 广度优先迭代算法
+        void bfs_print_iterative(const T&) const;
+
+        // 获得广度优先路径
+        auto get_bfs_path(const T&, const T&) const -> vector<T>;
+        auto get_bfs_tree(const unsigned int) const -> vector<std::optional<unsigned int>>;
+
     }; 
 
     template <typename T>
