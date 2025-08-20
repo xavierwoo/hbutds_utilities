@@ -103,7 +103,11 @@ namespace hbutds{
 
         
         /*最短路径算法*/
+        //单源最短路径树生成算法
         auto dijkstra(const T&) const -> std::pair<vector<std::optional<unsigned int>>, vector<double>>; 
+        
+        //获取最短路径
+        auto shortest_path(const T&, const T&) const -> std::pair<vector<T>, double>;
     }; 
 
     template <typename T>
@@ -574,6 +578,18 @@ auto hbutds::Graph<T>::dijkstra(
         }
     }
     return std::make_pair(tree, distance);
+}
+
+template <typename T>
+auto hbutds::Graph<T>::shortest_path(
+        const T& start, const T& end
+)const -> std::pair<vector<T>, double>{
+    const auto start_id {get_vertex_id(start)};
+    const auto end_id {get_vertex_id(end)};
+    assert(start_id.has_value() && end_id.has_value());
+    auto [tree, distance] {dijkstra(start)};
+    auto path {get_path_from_tree(start_id.value(), end_id.value(), tree)};
+    return std::make_pair(path, distance[end_id.value()]);
 }
 
 #endif
