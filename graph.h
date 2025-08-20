@@ -443,7 +443,7 @@ auto hbutds::Graph<T>::prim(
         if(!curr.has_value()) break;
 
         // 将当前点添加到生成树中，tree数组中已记录了连接边
-        auto curr_id {curr.value()};
+        const auto curr_id {curr.value()};
         tree_weight += distance[curr_id];
         visited[curr_id] = true;
 
@@ -453,7 +453,7 @@ auto hbutds::Graph<T>::prim(
 
             //更新这个点到生成树的距离和连接边
             distance[u] = e.cost;
-            tree[u] = std::optional(curr_id);
+            tree[u] = curr;
         }
     }
 
