@@ -566,7 +566,7 @@ auto hbutds::Graph<T>::dijkstra(
         if(!curr.has_value()) break;
 
         const auto curr_id {curr.value()};
-        visited[curr_id] = true;
+        visited[curr_id] = true; //至此start到curr的最短路径已确认
 
         for(const auto& e : _adjacency_list[curr_id]){
             const auto u {e.to};
