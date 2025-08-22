@@ -104,7 +104,8 @@ namespace hbutds{
         
         /*最短路径算法*/
         //单源最短路径树生成算法
-        auto dijkstra(const T&) const -> std::pair<vector<std::optional<unsigned int>>, vector<double>>; 
+        auto dijkstra(const unsigned int) 
+                const -> std::pair<vector<std::optional<unsigned int>>, vector<double>>; 
         
         //获取最短路径
         auto shortest_path(const T&, const T&) const -> std::pair<vector<T>, double>;
@@ -548,18 +549,15 @@ auto hbutds::Graph<T>::get_all_undirected_edges_info(
 
 template <typename T>
 auto hbutds::Graph<T>::dijkstra(
-        const T& start
+        const unsigned int start_id
 ) const -> std::pair<vector<std::optional<unsigned int>>, vector<double>> {
-    auto start_id {get_vertex_id(start)};
-    assert(start_id.has_value());
-
     vector<std::optional<unsigned int>> tree(
             _vertices.size(), std::nullopt); // 父亲表示法存储单源最短路径生成树
     vector<double> distance(_vertices.size(), 
             std::numeric_limits<double>::infinity()); // 到起点的距离
     vector<bool> visited(_vertices.size(), false); //访问标记
 
-    distance[start_id.value()] = 0.0; //起点到起点的距离为0
+    distance[start_id] = 0.0; //起点到起点的距离为0
 
     for(int i{0}; i<_vertex_size; ++i){
         const auto curr {find_min_unvisited_v(visited, distance)};
@@ -587,7 +585,7 @@ auto hbutds::Graph<T>::shortest_path(
     const auto start_id {get_vertex_id(start)};
     const auto end_id {get_vertex_id(end)};
     assert(start_id.has_value() && end_id.has_value());
-    auto [tree, distance] {dijkstra(start)};
+    auto [tree, distance] {dijkstra(start_id.value())};
     auto path {get_path_from_tree(start_id.value(), end_id.value(), tree)};
     return std::make_pair(path, distance[end_id.value()]);
 }
