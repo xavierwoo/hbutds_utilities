@@ -2,6 +2,32 @@
 #include <iostream>
 using std::cout;
 namespace hbutds{
+    auto generate_test_DAG() -> Graph<char>{
+        Graph<char> graph;
+        graph.add_vertex('a');
+        graph.add_vertex('b');
+        graph.add_vertex('c');
+        graph.add_vertex('d');
+        graph.add_vertex('e');
+        graph.add_vertex('f');
+        graph.add_vertex('g');
+        graph.add_vertex('h');
+        graph.add_vertex('i');
+
+        graph.add_edge('a', 'b', 60);
+        graph.add_edge('a', 'g', 40);
+        graph.add_edge('a', 'h', 50);
+        graph.add_edge('b', 'c', 10);
+        graph.add_edge('g', 'c', 10);
+        graph.add_edge('h', 'i', 20);
+        graph.add_edge('c', 'd', 90);
+        graph.add_edge('c', 'f', 70);
+        graph.add_edge('i', 'f', 40);
+        graph.add_edge('d', 'e', 20);
+        graph.add_edge('f', 'e', 30);
+        
+        return graph;
+    }
 
     auto generate_test_graph() -> Graph<char>{
         Graph<char> graph;

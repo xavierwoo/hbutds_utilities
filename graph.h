@@ -109,6 +109,13 @@ namespace hbutds{
         
         //获取最短路径
         auto shortest_path(const T&, const T&) const -> std::pair<vector<T>, double>;
+
+        /*拓扑排序与关键路径*/
+        //拓扑排序算法
+        auto topology_sort() const -> std::optional<vector<unsigned int>>;
+        //获取顶点入度
+        auto in_degree(const unsigned int) const -> unsigned int;
+
     }; 
 
     template <typename T>
@@ -119,6 +126,7 @@ namespace hbutds{
 
     void graph_works();
     auto generate_test_graph() -> Graph<char>;
+    auto generate_test_DAG() -> Graph<char>;
 }
 
 
@@ -588,6 +596,51 @@ auto hbutds::Graph<T>::shortest_path(
     auto [tree, distance] {dijkstra(start_id.value())};
     auto path {get_path_from_tree(start_id.value(), end_id.value(), tree)};
     return std::make_pair(path, distance[end_id.value()]);
+}
+
+template <typename T>
+auto hbutds::Graph<T>::topology_sort() const -> std::optional<vector<unsigned int>>{
+    vector<unsigned int> result; // 存储拓扑排序序列
+    vector<unsigned int> in_degree_arr(_vertices.size(), 0); //记录每个顶点的入度
+    queue<unsigned int> que;
+    
+    //计算每个顶点的初始入度，并将入度为0的顶点入队列
+    for(auto i{0}; i<_vertices.size(); ++i){
+        if(! _vertices[i].has_value()) continue;
+        in_degree_arr[i] = in_degree(i);
+        if(in_degree_arr[i] == 0) {
+            que.push(i);
+        }
+    }
+
+    //主循环
+    while(! que.empty()){
+        auto curr {que.front()}; que.pop();
+        result.push_back(curr); //出队列的点入结果序列
+        //curr的所有邻接点入度减1
+        for(const auto& e : _adjacency_list[curr]){
+            --in_degree_arr[e.to];
+            if(in_degree_arr[e.to] == 0){ //入度变为0的顶点入队列
+                que.push(e.to);
+            }
+        }
+    }
+    return result.size() == _vertex_size ? //结果序列个数不包含所有顶点则为失败
+            std::optional{result} : std::nullopt;
+}
+
+template <typename T>
+auto hbutds::Graph<T>::in_degree(const unsigned int v_id) const -> unsigned int{
+    unsigned int in_d{0};
+    for(const auto& edge_list : _adjacency_list){
+        for(const auto& e : edge_list){
+            if (e.to == v_id){
+                ++in_d;
+                break;
+            }
+        }
+    }
+    return in_d;
 }
 
 #endif
