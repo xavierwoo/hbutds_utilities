@@ -14,17 +14,17 @@ namespace hbutds{
         graph.add_vertex('h');
         graph.add_vertex('i');
 
-        graph.add_edge('a', 'b', 60);
-        graph.add_edge('a', 'g', 40);
-        graph.add_edge('a', 'h', 50);
-        graph.add_edge('b', 'c', 10);
-        graph.add_edge('g', 'c', 10);
-        graph.add_edge('h', 'i', 20);
-        graph.add_edge('c', 'd', 90);
-        graph.add_edge('c', 'f', 70);
-        graph.add_edge('i', 'f', 40);
-        graph.add_edge('d', 'e', 20);
-        graph.add_edge('f', 'e', 30);
+        graph.add_edge('a', 'b', 6);
+        graph.add_edge('a', 'g', 4);
+        graph.add_edge('a', 'h', 5);
+        graph.add_edge('b', 'c', 1);
+        graph.add_edge('g', 'c', 1);
+        graph.add_edge('h', 'i', 2);
+        graph.add_edge('c', 'd', 9);
+        graph.add_edge('c', 'f', 7);
+        graph.add_edge('i', 'f', 4);
+        graph.add_edge('d', 'e', 2);
+        graph.add_edge('f', 'e', 3);
         
         return graph;
     }

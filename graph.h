@@ -115,7 +115,14 @@ namespace hbutds{
         auto topology_sort() const -> std::optional<vector<unsigned int>>;
         //获取顶点入度
         auto in_degree(const unsigned int) const -> unsigned int;
-
+        //关键路径
+        auto critical_path() const -> std::optional<vector<std::pair<T,T>>>;
+        //计算最早发生时间
+        auto calculate_earlist_time(const vector<unsigned int>&) const -> vector<double>;
+        //计算最迟发生时间
+        auto calculate_latest_time(const vector<unsigned int>&, const double) const -> vector<double>;
+        //收集所有时延为0的边
+        auto collect_edges_with_delay0(const vector<double>&, const vector<double>&) const -> vector<std::pair<T,T>>;
     }; 
 
     template <typename T>
@@ -495,7 +502,6 @@ auto hbutds::Graph<T>::find_min_unvisited_v(
             std::nullopt : std::optional(min_index);
 }
 
-
 struct EdgeCompare{
     auto operator()(
             std::tuple<unsigned int, unsigned int, double>& a,
@@ -641,6 +647,84 @@ auto hbutds::Graph<T>::in_degree(const unsigned int v_id) const -> unsigned int{
         }
     }
     return in_d;
+}
+
+template <typename T>
+auto hbutds::Graph<T>::critical_path(
+) const -> std::optional<vector<std::pair<T,T>>>{
+    auto topo_sort_result_opt {topology_sort()};
+    if(! topo_sort_result_opt.has_value()) return std::nullopt;
+    auto topo_sort_result {topo_sort_result_opt.value()};
+
+    //计算最早发生时间
+    auto ve {calculate_earlist_time(topo_sort_result_opt.value())};
+
+    //计算最迟发生时间
+    auto sink_ve {ve[*(topo_sort_result.end() + (-1))]};
+    auto vl {calculate_latest_time(topo_sort_result, sink_ve)};
+
+    //返回时延为0的边
+    return {collect_edges_with_delay0(ve, vl)};
+}
+
+template <typename T>
+auto hbutds::Graph<T>::calculate_earlist_time(
+        const vector<unsigned int>& topo_sort_result
+) const -> vector<double>{
+    vector<double> ve(_vertices.size(), 0.0);
+    for(auto k{1}; k<topo_sort_result.size(); ++k){
+        const auto j{topo_sort_result[k]};
+        double max{0.0};
+        for(auto i{0}; i<_vertices.size(); ++i){
+            if(! _vertices[i].has_value()) continue;
+            const auto cost {get_edge_cost_by_id(i, j)};
+            if(cost < std::numeric_limits<double>::infinity()
+                    && ve[i] + cost > max){
+                max = ve[i] + cost;
+            }
+        }
+        ve[j] = max;
+    }
+    return ve;
+}
+
+template <typename T>
+auto hbutds::Graph<T>::calculate_latest_time(
+        const vector<unsigned int>& topo_sort_result, const double sink_ve
+) const -> vector<double>{
+    vector<double> vl(_vertices.size(), std::numeric_limits<double>::infinity());
+    vl[topo_sort_result[topo_sort_result.size() - 1]] = sink_ve;
+    for(int k = topo_sort_result.size() - 2; k>=0; --k){
+        const auto i{topo_sort_result[k]};
+        double min{std::numeric_limits<double>::infinity()};
+        for(const auto& e : _adjacency_list[i]){
+            const auto j{e.to};
+            if(vl[j] - e.cost < min){
+                min = vl[j] - e.cost;
+            }
+        }
+        vl[i] = min;
+    }
+    return vl;
+}
+
+template <typename T>
+auto hbutds::Graph<T>::collect_edges_with_delay0(
+        const vector<double>& ve, const vector<double>& vl
+) const -> vector<std::pair<T,T>>{
+    vector<std::pair<T, T>> edges_in_critical_path;
+    for(auto i{0}; i<_vertices.size(); ++i){
+        if(! _vertices[i].has_value()) continue;
+        for(const auto& e : _adjacency_list[i]){
+            const auto j {e.to};
+            const auto delay {vl[j] - ve[i] - e.cost};
+            if(delay == 0){
+                edges_in_critical_path.push_back(
+                        std::make_pair(get_vertex(i), get_vertex(j)));
+            }
+        }
+    }
+    return edges_in_critical_path;
 }
 
 #endif
