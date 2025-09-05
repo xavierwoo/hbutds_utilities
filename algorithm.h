@@ -36,6 +36,10 @@ namespace hbutds{
 
     void heap_works();
 
+
+    //顺序查找
+    template<typename T, typename Checker>
+    auto find_if(vector<T>&, Checker) -> vector<T>::iterator;
 }
 
 
@@ -107,5 +111,16 @@ void hbutds::make_heap(vector<T>& heap, Comparator cmp){
         percolate_down_heap(heap, pos, heap.size(), cmp);
     }
 }
+
+template<typename T, typename Checker>
+auto hbutds::find_if(vector<T>& v, Checker checker) -> vector<T>::iterator{
+    for(auto it{v.begin()}; it!=v.end(); ++it){
+        if(checker(*it)){
+            return it;
+        }
+    }
+    return v.end();
+}
+
 
 #endif
