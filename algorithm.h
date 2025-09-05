@@ -38,8 +38,8 @@ namespace hbutds{
 
 
     //顺序查找
-    template<typename T, typename Checker>
-    auto find_if(vector<T>&, Checker) -> vector<T>::iterator;
+    template<typename List, typename Checker>
+    auto find_if(List&, Checker) -> List::iterator;
 }
 
 
@@ -112,8 +112,8 @@ void hbutds::make_heap(vector<T>& heap, Comparator cmp){
     }
 }
 
-template<typename T, typename Checker>
-auto hbutds::find_if(vector<T>& v, Checker checker) -> vector<T>::iterator{
+template<typename List, typename Checker>
+auto hbutds::find_if(List& v, Checker checker) -> List::iterator{
     for(auto it{v.begin()}; it!=v.end(); ++it){
         if(checker(*it)){
             return it;
