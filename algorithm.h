@@ -40,6 +40,11 @@ namespace hbutds{
     //顺序查找
     template<typename List, typename Checker>
     auto find_if(List&, Checker) -> List::iterator;
+
+    //二分查找
+    template<typename List, typename T, typename Comparator = std::less<T>>
+    auto binary_search(const List&, T, Comparator = Comparator())-> bool;
+
 }
 
 
@@ -122,5 +127,21 @@ auto hbutds::find_if(List& v, Checker checker) -> List::iterator{
     return v.end();
 }
 
+template<typename List, typename T, typename Comparator>
+auto hbutds::binary_search(const List& list, T value, Comparator cmp) -> bool{
+    int low{0};
+    int high{static_cast<int>(list.size()) - 1};
+    while(low <= high){
+        int mid {(low+high)/2};
+        if(cmp(list[mid], value)){
+            low = mid + 1;
+        }else if (cmp(value, list[mid])){
+            high = mid - 1;
+        }else{
+            return true;
+        }
+    }
+    return false;
+}
 
 #endif
