@@ -45,6 +45,8 @@ namespace hbutds{
     template<typename List, typename T, typename Comparator = std::less<T>>
     auto binary_search(const List&, T, Comparator = Comparator())-> bool;
 
+    //二分查找求开根号
+    auto sqrt(double) -> double;
 }
 
 

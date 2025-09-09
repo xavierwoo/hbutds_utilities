@@ -4,6 +4,8 @@
 #include "queue.h"
 #include <iostream>
 #include <format>
+#include <cassert>
+#include <cmath>
 
 
 namespace hbutds{
@@ -74,4 +76,30 @@ namespace hbutds{
         test_make_heap();
         cout<<"hbutds heap works!\n";
     }
+}
+
+auto hbutds::sqrt(double value) -> double{
+    assert(value >= 0);
+    auto low{0.0};
+    auto high{value};
+
+    const double error{0.00001};
+    auto last_mid{value};
+
+    while(true){
+        auto mid {(low+high)/2.0};
+        auto mid_sq{mid*mid};
+        if(mid_sq < value){
+            low = mid;
+        }else if(mid_sq > value){
+            high = mid;
+        }else{
+            return mid;
+        }
+        if(std::abs(last_mid - mid) < error){ //std::abs需要<cmath>头文件
+            return mid;
+        }
+        last_mid = mid;
+    }
+    assert(false); //应该不会执行到这里
 }
