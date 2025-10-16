@@ -47,6 +47,10 @@ namespace hbutds{
 
     //二分查找求开根号
     auto sqrt(double) -> double;
+
+    //直接选择排序
+    template<typename List>
+    void selection_sort(List&);
 }
 
 
@@ -144,6 +148,25 @@ auto hbutds::binary_search(const List& list, T value, Comparator cmp) -> bool{
         }
     }
     return false;
+}
+
+template<typename List>
+void hbutds::selection_sort(List& list){
+    for(auto i{0}; i<list.size(); ++i){
+        auto min_index{i};
+
+        //找到未排序的最小元素
+        for(auto j{i+1}; j<list.size(); ++j){
+            if(list[j] < list[min_index]){
+                min_index = j;
+            }
+        }
+
+        //将最小元素与未排序的起始位置元素交换
+        auto tmp {list[min_index]};
+        list[min_index] = list[i];
+        list[i] = tmp;
+    }
 }
 
 #endif
