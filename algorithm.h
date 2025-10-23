@@ -7,6 +7,7 @@
 #include <utility>
 #include <cassert>
 #include <filesystem>
+#include <algorithm>
 #include "vector.h"
 
 namespace hbutds{
@@ -51,6 +52,15 @@ namespace hbutds{
     //直接选择排序
     template<typename List>
     void selection_sort(List&);
+
+    //堆排序
+    template<typename List>
+    void heap_sort(List&);
+
+    //冒泡排序
+    template<typename List>
+    void bubble_sort(List&);
+
 }
 
 
@@ -166,6 +176,31 @@ void hbutds::selection_sort(List& list){
         auto tmp {list[min_index]};
         list[min_index] = list[i];
         list[i] = tmp;
+    }
+}
+
+
+template<typename List>
+void hbutds::heap_sort(List& list){
+    std::make_heap(list.begin(), list.end());//将顺序表调整为堆
+
+    for(auto last{list.end()}; last != list.begin(); last = last + (-1)){
+        std::pop_heap(list.begin(), last);
+    }
+}
+
+template<typename List>
+void hbutds::bubble_sort(List& list){
+    for(auto i{0}; i<list.size() - 1; ++i){
+        bool never_swapped {true};//是否交换过的标记
+        for(auto j{0}; j<list.size() - i - 1; ++j){
+            if (list[j] <= list[j+1]) continue;
+            auto tmp{list[j]};
+            list[j] = list[j+1];
+            list[j+1] = tmp;
+            never_swapped = false;
+        }
+        if(never_swapped) return;//如果没有交换，则说明已经有序
     }
 }
 
