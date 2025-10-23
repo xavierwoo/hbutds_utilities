@@ -16,7 +16,7 @@ void hbutds::EightQueenSolver::place_recursion(int y){
     //在第y行上从左到右依次尝试放置皇后
     for(int x{0}; x<8; ++x){
         //不考虑非法的放置
-        if(X[x] == 1 || XaY[x+y] || XmY[x-y+7]) continue;
+        if(X[x] || XaY[x+y] || XmY[x-y+7]) continue;
 
         Y[y] = x; //记录y行放置的位置
         
