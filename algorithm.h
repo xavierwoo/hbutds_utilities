@@ -61,6 +61,13 @@ namespace hbutds{
     template<typename List>
     void bubble_sort(List&);
 
+    //以末尾元素为轴的划分算法
+    template<typename Iterator>
+    auto partition(Iterator begin, Iterator end) -> Iterator;
+
+    //快速排序
+    template<typename Iterator>
+    void sort(Iterator begin, Iterator end);
 }
 
 
@@ -202,6 +209,41 @@ void hbutds::bubble_sort(List& list){
         }
         if(never_swapped) return;//如果没有交换，则说明已经有序
     }
+}
+
+template<typename Iterator>
+auto hbutds::partition(Iterator begin, Iterator end) -> Iterator{
+    auto it_pivot {end + (-1)}; //以最后一个元素为轴
+    auto it_i {begin}; //较小元素的插入位置
+
+    for(auto it_j{begin}; it_j != end + (-1); ++it_j){
+        if(*it_j >= *it_pivot) continue;
+
+        //交换i与j位的元素
+        auto tmp {*it_j};
+        *it_j = *it_i;
+        *it_i = tmp;
+
+        ++it_i;
+    }
+
+    //将轴放置到正确的最终位置
+    auto tmp {*it_pivot};
+    *it_pivot = *it_i;
+    *it_i = tmp;
+
+    //返回指向轴的迭代器
+    return it_i;
+}
+
+template<typename Iterator>
+void hbutds::sort(Iterator begin, Iterator end){
+    if (begin >= end) return;
+
+    auto it_pivot {partition(begin, end)}; //划分
+
+    hbutds::sort(begin, it_pivot); //对左边进行排序
+    hbutds::sort(it_pivot+1, end); //对右边进行排序
 }
 
 #endif
