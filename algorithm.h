@@ -50,16 +50,16 @@ namespace hbutds{
     auto sqrt(double) -> double;
 
     //直接选择排序
-    template<typename List>
-    void selection_sort(List&);
+    template<typename SeqList>
+    void selection_sort(SeqList&);
 
     //堆排序
-    template<typename List>
-    void heap_sort(List&);
+    template<typename SeqList>
+    void heap_sort(SeqList&);
 
     //冒泡排序
-    template<typename List>
-    void bubble_sort(List&);
+    template<typename SeqList>
+    void bubble_sort(SeqList&);
 
     //以末尾元素为轴的划分算法
     template<typename Iterator>
@@ -68,6 +68,11 @@ namespace hbutds{
     //快速排序
     template<typename Iterator>
     void sort(Iterator begin, Iterator end);
+
+    //直接插入排序
+    template<typename SeqList>
+    void insertion_sort(SeqList&);
+
 }
 
 
@@ -167,44 +172,44 @@ auto hbutds::binary_search(const List& list, T value, Comparator cmp) -> bool{
     return false;
 }
 
-template<typename List>
-void hbutds::selection_sort(List& list){
-    for(auto i{0}; i<list.size(); ++i){
+template<typename SeqList>
+void hbutds::selection_sort(SeqList& data){
+    for(auto i{0}; i<data.size(); ++i){
         auto min_index{i};
 
         //找到未排序的最小元素
-        for(auto j{i+1}; j<list.size(); ++j){
-            if(list[j] < list[min_index]){
+        for(auto j{i+1}; j<data.size(); ++j){
+            if(data[j] < data[min_index]){
                 min_index = j;
             }
         }
 
         //将最小元素与未排序的起始位置元素交换
-        auto tmp {list[min_index]};
-        list[min_index] = list[i];
-        list[i] = tmp;
+        auto tmp {data[min_index]};
+        data[min_index] = data[i];
+        data[i] = tmp;
     }
 }
 
 
-template<typename List>
-void hbutds::heap_sort(List& list){
-    std::make_heap(list.begin(), list.end());//将顺序表调整为堆
+template<typename SeqList>
+void hbutds::heap_sort(SeqList& data){
+    std::make_heap(data.begin(), data.end());//将顺序表调整为堆
 
-    for(auto last{list.end()}; last != list.begin(); last = last + (-1)){
-        std::pop_heap(list.begin(), last);
+    for(auto last{data.end()}; last != data.begin(); last = last + (-1)){
+        std::pop_heap(data.begin(), last);
     }
 }
 
-template<typename List>
-void hbutds::bubble_sort(List& list){
-    for(auto i{0}; i<list.size() - 1; ++i){
+template<typename SeqList>
+void hbutds::bubble_sort(SeqList& data){
+    for(auto i{0}; i<data.size() - 1; ++i){
         bool never_swapped {true};//是否交换过的标记
-        for(auto j{0}; j<list.size() - i - 1; ++j){
-            if (list[j] <= list[j+1]) continue;
-            auto tmp{list[j]};
-            list[j] = list[j+1];
-            list[j+1] = tmp;
+        for(auto j{0}; j<data.size() - i - 1; ++j){
+            if (data[j] <= data[j+1]) continue;
+            auto tmp{data[j]};
+            data[j] = data[j+1];
+            data[j+1] = tmp;
             never_swapped = false;
         }
         if(never_swapped) return;//如果没有交换，则说明已经有序
@@ -244,6 +249,25 @@ void hbutds::sort(Iterator begin, Iterator end){
 
     hbutds::sort(begin, it_pivot); //对左边进行排序
     hbutds::sort(it_pivot+1, end); //对右边进行排序
+}
+
+template<typename SeqList>
+void hbutds::insertion_sort(SeqList& data){
+    if(data.size() <= 1) {return;}
+
+    // end_pos为有序部分的终止位置
+    for(auto end_pos{1}; end_pos < data.size(); ++end_pos){
+        auto tmp {data[end_pos]};
+
+        auto i {end_pos};
+        
+        while(i > 0 && data[i-1] > tmp){
+            data[i] = data[i-1];
+            --i;
+        }// 向后移动比tmp大的元素，同时确定插入位置i
+
+        data[i] = tmp;
+    }
 }
 
 #endif
