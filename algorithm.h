@@ -73,6 +73,9 @@ namespace hbutds{
     template<typename SeqList>
     void insertion_sort(SeqList&);
 
+    //希尔排序
+    template<typename SeqList>
+    void shell_sort(SeqList&);
 }
 
 
@@ -267,6 +270,27 @@ void hbutds::insertion_sort(SeqList& data){
         }// 向后移动比tmp大的元素，同时确定插入位置i
 
         data[i] = tmp;
+    }
+}
+
+template<typename SeqList>
+void hbutds::shell_sort(SeqList& data){
+    for(auto k{data.size() / 2}; k >= 1; k/=2){
+
+        // 将数据按照步长k分组
+        for(auto group{0}; group < k; ++group){
+
+            //针对group分组做直接插入排序
+            for(auto end_pos{group + k}; end_pos < data.size(); end_pos += k){
+                auto tmp {data[end_pos]};
+                auto i {end_pos};
+                while(i >= k && data[i - k] > tmp){
+                    data[i] = data[i-k];
+                    i -= k;
+                }
+                data[i] = tmp;
+            }
+        }
     }
 }
 
