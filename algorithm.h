@@ -76,6 +76,16 @@ namespace hbutds{
     //希尔排序
     template<typename SeqList>
     void shell_sort(SeqList&);
+
+    //合并操作
+    template<typename SeqList>
+    void merge(SeqList&, int, int, int);
+
+    //归并排序
+    template<typename SeqList>
+    void merge_sort_recur(SeqList&, int, int);
+    template<typename SeqList>
+    void merge_sort(SeqList&);
 }
 
 
@@ -256,7 +266,6 @@ void hbutds::sort(Iterator begin, Iterator end){
 
 template<typename SeqList>
 void hbutds::insertion_sort(SeqList& data){
-    if(data.size() <= 1) {return;}
 
     // end_pos为有序部分的终止位置
     for(auto end_pos{1}; end_pos < data.size(); ++end_pos){
@@ -275,6 +284,7 @@ void hbutds::insertion_sort(SeqList& data){
 
 template<typename SeqList>
 void hbutds::shell_sort(SeqList& data){
+    
     for(auto k{data.size() / 2}; k >= 1; k/=2){
 
         // 将数据按照步长k分组
@@ -292,6 +302,59 @@ void hbutds::shell_sort(SeqList& data){
             }
         }
     }
+}
+
+
+template <typename SeqList>
+void hbutds::merge(SeqList& data, int left, int mid, int right){
+    int n_l {mid - left + 1};
+    int n_r {right - mid};
+
+    SeqList data_l; data_l.reserve(n_l);
+    SeqList data_r; data_r.reserve(n_r);
+
+    // 将原数据data以mid为界拷贝到data_l与data_r
+    for(int i{0}; i<n_l; ++i) {data_l.push_back(data[left+i]);}
+    for(int i{0}; i<n_r; ++i) {data_r.push_back(data[mid+1+i]);}
+
+    int i=0, j=0, o=left;
+
+    // 挑选data_l和data_r中的较小值，存放到data中
+    while(i<n_l && j<n_r){
+        if(data_l[i] <= data_r[j]){
+            data[o] = data_l[i];
+            ++i;
+        }else{
+            data[o] = data_r[j];
+            ++j;
+        }
+        ++o;
+    }
+
+    // 拷贝剩余元素
+    while(i < n_l){
+        data[o] = data_l[i];
+        ++i; ++o;
+    }
+    while(j < n_r){
+        data[o] = data_r[j];
+        ++j; ++o;
+    }
+}
+
+template<typename SeqList>
+void hbutds::merge_sort_recur(SeqList& data, int left, int right){
+    if(left >= right) {return;}
+
+    auto mid {left + (right - left) / 2};
+    merge_sort_recur(data, left, mid);
+    merge_sort_recur(data, mid+1, right);
+    merge(data, left, mid, right);
+}
+
+template<typename SeqList>
+void hbutds::merge_sort(SeqList& data){
+    merge_sort_recur(data, 0, data.size() - 1);
 }
 
 #endif
