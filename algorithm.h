@@ -69,6 +69,9 @@ namespace hbutds{
     template<typename Iterator>
     void sort(Iterator begin, Iterator end);
 
+    template<typename SeqList>
+    void quick_sort(SeqList&);
+
     //直接插入排序
     template<typename SeqList>
     void insertion_sort(SeqList&);
@@ -262,6 +265,11 @@ void hbutds::sort(Iterator begin, Iterator end){
 
     hbutds::sort(begin, it_pivot); //对左边进行排序
     hbutds::sort(it_pivot+1, end); //对右边进行排序
+}
+
+template<typename SeqList>
+void hbutds::quick_sort(SeqList& data){
+    hbutds::sort(data.begin(), data.end());
 }
 
 template<typename SeqList>
