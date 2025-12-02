@@ -542,7 +542,7 @@ auto hbutds::Graph<T>::kruskal(
         }
         tree_edges.push_back(e);
         tree_weight += cost;
-        if(tree_edges.size() == _vertex_size)break;
+        if(tree_edges.size() == _vertex_size - 1)break;
     }
     return std::make_pair(tree_edges, tree_weight);
 }
