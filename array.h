@@ -27,7 +27,7 @@ namespace hbutds{
     public:
         auto operator++() -> iterator&; // 获取后继元素的迭代器
         auto operator*() -> T&; // 获取迭代器所指元素
-        auto operator!=(const iterator) const -> bool; //判断与某迭代器是否不等
+        auto operator!=(iterator) const -> bool; //判断与某迭代器是否不等
     };
 
 
