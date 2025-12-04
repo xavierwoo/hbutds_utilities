@@ -2,6 +2,7 @@
 #define HBUTDS_ARRAY_H
 
 #include<cassert>
+#include<utility>
 
 namespace hbutds{
 
@@ -16,6 +17,8 @@ namespace hbutds{
         struct iterator; // 迭代器类声明
         auto begin() -> iterator; // 获取首元素迭代器
         auto end() -> iterator; // 获取终止位置迭代器
+
+        array(const std::initializer_list<T>&);
     };
 
     template<typename T, unsigned int N>
@@ -97,6 +100,18 @@ auto hbutds::array<T, N>::iterator::operator*() -> T& {
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::iterator::operator!=(const iterator o) const -> bool {
     return _ptr != o._ptr;
+}
+
+template<typename T, unsigned int N>
+hbutds::array<T, N>::array(const std::initializer_list<T>& l){
+    assert(l.size() <= N);
+    unsigned int i{0};
+    for(auto it{l.begin()}; it!=l.end(); ++i, ++it){
+        new(&_data[i]) T(*it);
+    }
+    for(;i<N;++i){
+        new(&_data[i]) T();
+    }
 }
 
 #endif
