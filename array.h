@@ -32,6 +32,7 @@ namespace hbutds{
         auto operator--() -> iterator&; // 获取前序元素的迭代器
         auto operator+(int) -> iterator; // 通过加法获得相对位置的迭代器
         auto operator-(int) -> iterator; // 通过减法获得相对位置的迭代器
+        auto operator-(iterator) -> int; // 获得两迭代器的相对位置
     };
 
 
@@ -81,6 +82,11 @@ auto hbutds::array<T, N>::iterator::operator+(int offset) -> iterator {
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::iterator::operator-(int offset) -> iterator {
     return iterator(_ptr - offset);
+}
+
+template<typename T, unsigned int N>
+auto hbutds::array<T, N>::iterator::operator-(iterator) -> int {
+    return _ptr - iterator._ptr;
 }
 
 template<typename T, unsigned int N>
