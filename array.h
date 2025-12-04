@@ -108,10 +108,10 @@ hbutds::array<T, N>::array(const std::initializer_list<T>& l){
     assert(l.size() <= N);
     unsigned int i{0};
     for(auto it{l.begin()}; it!=l.end(); ++i, ++it){
-        new(&_data[i]) T(*it);
+        _data[i] = *it;
     }
     for(;i<N;++i){
-        new(&_data[i]) T();
+        _data[i] = T();
     }
 }
 
