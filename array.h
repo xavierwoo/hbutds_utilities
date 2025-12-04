@@ -85,8 +85,8 @@ auto hbutds::array<T, N>::iterator::operator-(int offset) -> iterator {
 }
 
 template<typename T, unsigned int N>
-auto hbutds::array<T, N>::iterator::operator-(iterator) -> int {
-    return _ptr - iterator._ptr;
+auto hbutds::array<T, N>::iterator::operator-(iterator o) -> int {
+    return _ptr - o._ptr;
 }
 
 template<typename T, unsigned int N>
