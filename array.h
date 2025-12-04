@@ -19,6 +19,7 @@ namespace hbutds{
         auto end() -> iterator; // 获取终止位置迭代器
 
         array(const std::initializer_list<T>&);
+        array() = default;
     };
 
     template<typename T, unsigned int N>
