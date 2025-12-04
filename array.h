@@ -18,8 +18,8 @@ namespace hbutds{
         auto begin() -> iterator; // 获取首元素迭代器
         auto end() -> iterator; // 获取终止位置迭代器
 
-        array(const std::initializer_list<T>&);
-        array() = default;
+        array(const std::initializer_list<T>&); // 初始化列表构造
+        array() = default; // 强制编辑器自动给出默认构造函数
     };
 
     template<typename T, unsigned int N>
