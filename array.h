@@ -89,12 +89,12 @@ auto hbutds::array<T, N>::end() -> iterator {
 
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::begin() const -> const_iterator {
-    return const_iterator(_data);
+    return const_iterator(data);
 }
 
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::end() const -> const_iterator {
-    return const_iterator(_data+N);
+    return const_iterator(data+N);
 } 
 
 template<typename T, unsigned int N>
