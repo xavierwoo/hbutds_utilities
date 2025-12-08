@@ -19,6 +19,10 @@ namespace hbutds{
         auto begin() -> iterator; // 获取首元素迭代器
         auto end() -> iterator; // 获取终止位置迭代器
 
+        struct const_iterator; // const迭代器声明
+        auto begin() const -> const_iterator; // 获取首元素const迭代器
+        auto end() const -> const_iterator; // 获取终止位置const迭代器
+
         array(const std::initializer_list<T>&); // 初始化列表构造
         array() = default; // 强制编辑器自动给出默认构造函数
     };
@@ -38,6 +42,18 @@ namespace hbutds{
         auto operator+(int) -> iterator; // 通过加法获得相对位置的迭代器
         auto operator-(int) -> iterator; // 通过减法获得相对位置的迭代器
         auto operator-(iterator) -> int; // 获得两迭代器的相对位置
+    };
+
+    template<typename T, unsigned int N>
+    struct array<T, N>::const_iterator{
+        friend array;
+    private:
+        const T* _ptr; //指向元素的const指针
+        const_iterator(const T* p):_ptr(p){};
+    public:
+        auto operator++() -> const_iterator&; //获取后继元素的const迭代器
+        auto operator*() -> const T&; // 获取迭代器所指元素
+        auto operator!=(const_iterator) const -> bool; //判断与某const迭代器是否不等
     };
 
 
@@ -71,6 +87,16 @@ auto hbutds::array<T, N>::begin() -> iterator {
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::end() -> iterator {
     return iterator(_data+N);
+} 
+
+template<typename T, unsigned int N>
+auto hbutds::array<T, N>::begin() const -> const_iterator {
+    return const_iterator(_data);
+}
+
+template<typename T, unsigned int N>
+auto hbutds::array<T, N>::end() const -> const_iterator {
+    return const_iterator(_data+N);
 } 
 
 template<typename T, unsigned int N>
@@ -120,6 +146,24 @@ hbutds::array<T, N>::array(const std::initializer_list<T>& l){
     for(;i<N;++i){
         _data[i] = T();
     }
+}
+
+template<typename T, unsigned int N>
+auto hbutds::array<T, N>::const_iterator::operator++() -> const_iterator& {
+    ++_ptr;
+    return *this;
+}
+
+template<typename T, unsigned int N>
+auto hbutds::array<T, N>::const_iterator::operator*() -> const T& {
+    return *_ptr;
+}
+
+template<typename T, unsigned int N>
+auto hbutds::array<T, N>::const_iterator::operator!=(
+        const const_iterator o
+) const -> bool {
+    return _ptr != o._ptr;
 }
 
 #endif
