@@ -12,6 +12,7 @@ namespace hbutds{
         T _data[N];
     public:
         auto operator[](const unsigned int) -> T&;
+        auto operator[](const unsigned int) const -> const T&;
         auto size() const -> unsigned int;
 
         struct iterator; // 迭代器类声明
@@ -47,6 +48,12 @@ namespace hbutds{
 
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::operator[](const unsigned int pos) -> T&{
+    assert(pos < N);
+    return _data[pos];    
+}
+
+template<typename T, unsigned int N>
+auto hbutds::array<T, N>::operator[](const unsigned int pos) const -> const T&{
     assert(pos < N);
     return _data[pos];    
 }
