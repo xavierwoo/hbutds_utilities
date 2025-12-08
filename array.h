@@ -47,12 +47,12 @@ auto hbutds::array<T, N>::size() const -> unsigned int{
 
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::begin() -> iterator {
-    return iterator(_data);
+    return iterator(data);
 }
 
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::end() -> iterator {
-    return iterator(_data+N);
+    return iterator(data+N);
 } 
 
 template<typename T, unsigned int N>
