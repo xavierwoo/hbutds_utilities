@@ -20,9 +20,6 @@ namespace hbutds{
         struct const_iterator; // const迭代器声明
         auto begin() const -> const_iterator; // 获取首元素const迭代器
         auto end() const -> const_iterator; // 获取终止位置const迭代器
-
-        array(const std::initializer_list<T>&); // 初始化列表构造
-        array() = default; // 强制编辑器自动给出默认构造函数
     };
 
     template<typename T, unsigned int N>
@@ -132,18 +129,6 @@ auto hbutds::array<T, N>::iterator::operator*() -> T& {
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::iterator::operator!=(const iterator o) const -> bool {
     return _ptr != o._ptr;
-}
-
-template<typename T, unsigned int N>
-hbutds::array<T, N>::array(const std::initializer_list<T>& l){
-    assert(l.size() <= N);
-    unsigned int i{0};
-    for(auto it{l.begin()}; it!=l.end(); ++i, ++it){
-        _data[i] = *it;
-    }
-    for(;i<N;++i){
-        _data[i] = T();
-    }
 }
 
 template<typename T, unsigned int N>
