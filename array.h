@@ -66,7 +66,7 @@ auto hbutds::array<T, N>::operator[](const unsigned int pos) -> T&{
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::operator[](const unsigned int pos) const -> const T&{
     assert(pos < N);
-    return _data[pos];    
+    return data[pos];    
 }
 
 template<typename T, unsigned int N>
