@@ -7,9 +7,7 @@ namespace hbutds{
 
     template<typename T, unsigned int N>
     struct array{        
-    private:
-        T _data[N];
-    public:
+        T data[N];
         auto operator[](const unsigned int) -> T&;
         auto size() const -> unsigned int;
     };
@@ -21,7 +19,7 @@ namespace hbutds{
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::operator[](const unsigned int pos) -> T&{
     assert(pos < N);
-    return _data[pos];    
+    return data[pos];    
 }
 
 template<typename T, unsigned int N>
