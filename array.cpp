@@ -34,11 +34,17 @@ namespace hbutds{
         cout<<"\tIterator works!\n";
     }
 
+    void test_2d_array(){
+        array<array<int, 2>, 2> arr_2d{1,2,3,4};
+        assert(arr_2d[1][1] == 4);
+        cout<<"\t2D array works!\n";
+    }
+
     void array_works(){
         cout<<"Testing hbutds::array simple version:\n";
         test_access_and_size();
         test_array_initializer();
-
+        test_2d_array();
         cout<<"\tarray_works!\n";
     }
 }
