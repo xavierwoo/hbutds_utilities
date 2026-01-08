@@ -26,6 +26,8 @@ namespace hbutds{
         struct iterator;
         auto begin() -> iterator; // 返回首元素迭代器
         auto end() -> iterator; // 返回表终止位迭代器
+
+        auto insert(iterator, const T&) -> iterator; // 插入元素
     };
 
     template <typename T>
@@ -103,6 +105,25 @@ auto hbutds::vector<T>::begin() -> iterator{
 template <typename T>
 auto hbutds::vector<T>::end() -> iterator{
     return iterator(_data + _size);
+}
+
+template <typename T>
+auto hbutds::vector<T>::insert(const iterator it, const T& new_e) -> iterator{
+    auto pos {it._ptr - _data}; // 需要先计算pos，扩容后it会失效
+    assert(pos >= 0 && pos <= _size);
+
+    if(_capacity == 0) {reserve(1);} // 模拟std::vector的扩容模式
+    else if (_size == _capacity) {reserve(_size * 2);}
+
+    ++_size;
+
+    // 从后往前依次移动元素
+    for(auto i{_size - 1}; i>pos; --i){ 
+        _data[i] = _data[i-1];
+    }
+    _data[pos] = new_e; // 将新元素放在空出的位置上
+    
+    return iterator(_data + pos);
 }
 
 
