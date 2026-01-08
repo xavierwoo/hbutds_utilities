@@ -38,6 +38,8 @@ namespace hbutds{
         auto operator++() -> iterator&; // 获得后继迭代器
         auto operator*() -> T&; // 获得指向的元素
         auto operator!=(const iterator) const -> bool; // 不等判定
+        auto operator+(int) const -> iterator; // 获得相对位置靠后的迭代器
+        auto operator-(int) const -> iterator; // 获得相对位置靠前的迭代器
     };
 
     void vector_works();
@@ -120,6 +122,16 @@ auto hbutds::vector<T>::iterator::operator*() -> T&{
 template <typename T>
 auto hbutds::vector<T>::iterator::operator!=(const iterator o) const -> bool{
     return _ptr != o._ptr;
+}
+
+template <typename T>
+auto hbutds::vector<T>::iterator::operator+(const int offset) const -> iterator{
+    return iterator(_ptr + offset);
+}
+
+template <typename T>
+auto hbutds::vector<T>::iterator::operator-(const int offset) const -> iterator{
+    return iterator(_ptr - offset);
 }
 
 #endif
