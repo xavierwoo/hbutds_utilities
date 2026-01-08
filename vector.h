@@ -28,6 +28,8 @@ namespace hbutds{
         auto end() -> iterator; // 返回表终止位迭代器
 
         auto insert(iterator, const T&) -> iterator; // 插入元素
+        void push_back(const T&); // 在尾部插入元素
+        
     };
 
     template <typename T>
@@ -125,6 +127,13 @@ auto hbutds::vector<T>::insert(const iterator it, const T& new_e) -> iterator{
     
     return iterator(_data + pos);
 }
+
+template <typename T>
+void hbutds::vector<T>::push_back(const T& new_e){
+    insert(end(), new_e);
+}
+
+
 
 
 /***************迭代器***************/
