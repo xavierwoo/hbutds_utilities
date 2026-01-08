@@ -84,6 +84,9 @@ auto hbutds::array<T, N>::end() -> iterator {
     return iterator(data+N);
 } 
 
+
+/***************迭代器***************/
+
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::begin() const -> const_iterator {
     return const_iterator(data);

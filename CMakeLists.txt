@@ -4,5 +4,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_library(hbutds_utilities STATIC
         array.h
         array.cpp
+        vector.h
+        vector.cpp
 )
 target_include_directories(hbutds_utilities PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
