@@ -29,7 +29,7 @@ namespace hbutds{
 
         auto insert(iterator, const T&) -> iterator; // 插入元素
         void push_back(const T&); // 在尾部插入元素
-        
+        auto erase(iterator) -> iterator; // 删除元素
     };
 
     template <typename T>
@@ -133,7 +133,17 @@ void hbutds::vector<T>::push_back(const T& new_e){
     insert(end(), new_e);
 }
 
+template <typename T>
+auto hbutds::vector<T>::erase(const iterator it) -> iterator{
+    auto pos {it._ptr - _data}; // 计算删除位置pos
+    assert(pos >= 0 && pos < _size); 
 
+    for(auto i{pos}; i<_size - 1; ++i){ // 从前往后依次移动元素
+        _data[i] = _data[i+1];
+    }
+    --_size;
+    return iterator(_data + pos); // 返回指向删除元素后一位的迭代器
+}
 
 
 /***************迭代器***************/
