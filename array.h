@@ -9,7 +9,7 @@ namespace hbutds{
     template<typename T, unsigned int N>
     struct array{        
         T data[N];
-        auto operator[](const unsigned int) -> T&;
+        auto operator[](unsigned int) -> T&;
         auto operator[](const unsigned int) const -> const T&;
         auto size() const -> unsigned int;
 
