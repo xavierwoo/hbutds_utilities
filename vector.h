@@ -18,10 +18,10 @@ namespace hbutds{
         ~vector(); // 析构函数
         vector(const std::initializer_list<T>&); // 初始化列表构造函数
 
-        void reserve(const unsigned int); // 申请容量
+        void reserve(unsigned int); // 申请容量
         auto size() const -> unsigned int; // 获取元素个数
         auto capacity() const -> unsigned int; // 获取表容量
-        auto operator[](const unsigned int) -> T&; // 使用[]访问元素
+        auto operator[](unsigned int) -> T&; // 使用[]访问元素
     };
 
     void vector_works();
