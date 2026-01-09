@@ -34,9 +34,9 @@ namespace hbutds{
         auto operator!=(iterator) const -> bool; //判断与某迭代器是否不等
 
         auto operator--() -> iterator&; // 获取前序元素的迭代器
-        auto operator+(int) -> iterator; // 通过加法获得相对位置的迭代器
-        auto operator-(int) -> iterator; // 通过减法获得相对位置的迭代器
-        auto operator-(iterator) -> int; // 获得两迭代器的相对位置
+        auto operator+(int) const -> iterator; // 通过加法获得相对位置的迭代器
+        auto operator-(int) const -> iterator; // 通过减法获得相对位置的迭代器
+        auto operator-(iterator) const -> int; // 获得两迭代器的相对位置
     };
 
     template<typename T, unsigned int N>
@@ -107,17 +107,17 @@ auto hbutds::array<T, N>::iterator::operator--() -> iterator& {
 }
 
 template<typename T, unsigned int N>
-auto hbutds::array<T, N>::iterator::operator+(int offset) -> iterator {
+auto hbutds::array<T, N>::iterator::operator+(int offset) const -> iterator {
     return iterator(_ptr + offset);
 }
 
 template<typename T, unsigned int N>
-auto hbutds::array<T, N>::iterator::operator-(int offset) -> iterator {
+auto hbutds::array<T, N>::iterator::operator-(int offset) const -> iterator {
     return iterator(_ptr - offset);
 }
 
 template<typename T, unsigned int N>
-auto hbutds::array<T, N>::iterator::operator-(iterator o) -> int {
+auto hbutds::array<T, N>::iterator::operator-(iterator o) const -> int {
     return _ptr - o._ptr;
 }
 
