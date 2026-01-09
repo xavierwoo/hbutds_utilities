@@ -7,10 +7,8 @@ namespace hbutds{
 
     template<typename T, unsigned int N>
     struct array{        
-    private:
-        T _data[N];
-    public:
-        auto operator[](const unsigned int) -> T&;
+        T data[N];
+        auto operator[](unsigned int) -> T&;
         auto size() const -> unsigned int;
 
         struct iterator; // 迭代器类声明
@@ -39,7 +37,7 @@ namespace hbutds{
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::operator[](const unsigned int pos) -> T&{
     assert(pos < N);
-    return _data[pos];    
+    return data[pos];    
 }
 
 template<typename T, unsigned int N>
