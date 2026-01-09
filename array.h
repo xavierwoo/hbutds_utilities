@@ -9,8 +9,8 @@ namespace hbutds{
     template<typename T, unsigned int N>
     struct array{        
         T data[N];
-        auto operator[](const unsigned int) -> T&;
-        auto operator[](const unsigned int) const -> const T&;
+        auto operator[](unsigned int) -> T&;
+        auto operator[](unsigned int) const -> const T&;
         auto size() const -> unsigned int;
 
         struct iterator; // 迭代器类声明
@@ -47,7 +47,7 @@ namespace hbutds{
         const_iterator(const T* p):_ptr(p){};
     public:
         auto operator++() -> const_iterator&; //获取后继元素的const迭代器
-        auto operator*() -> const T&; // 获取迭代器所指元素
+        auto operator*() const -> const T&; // 获取迭代器所指元素
         auto operator!=(const_iterator) const -> bool; //判断与某const迭代器是否不等
     };
 
@@ -138,7 +138,7 @@ auto hbutds::array<T, N>::const_iterator::operator++() -> const_iterator& {
 }
 
 template<typename T, unsigned int N>
-auto hbutds::array<T, N>::const_iterator::operator*() -> const T& {
+auto hbutds::array<T, N>::const_iterator::operator*() const -> const T& {
     return *_ptr;
 }
 
