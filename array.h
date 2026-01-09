@@ -8,12 +8,12 @@ namespace hbutds{
     template<typename T, unsigned int N>
     struct array{        
         T data[N];
-        auto operator[](const unsigned int) -> T&;
+        auto operator[](unsigned int) -> T&;
         auto size() const -> unsigned int;
 
         struct iterator; // 迭代器类声明
-        auto begin() -> iterator; // 获取首元素迭代器
-        auto end() -> iterator; // 获取终止位置迭代器
+        auto begin() const -> iterator; // 获取首元素迭代器
+        auto end() const -> iterator; // 获取终止位置迭代器
     };
 
     template<typename T, unsigned int N>
@@ -46,13 +46,13 @@ auto hbutds::array<T, N>::size() const -> unsigned int{
 }
 
 template<typename T, unsigned int N>
-auto hbutds::array<T, N>::begin() -> iterator {
-    return iterator(data);
+auto hbutds::array<T, N>::begin() const -> iterator {
+    return iterator(_data);
 }
 
 template<typename T, unsigned int N>
-auto hbutds::array<T, N>::end() -> iterator {
-    return iterator(data+N);
+auto hbutds::array<T, N>::end() const -> iterator {
+    return iterator(_data+N);
 } 
 
 template<typename T, unsigned int N>
