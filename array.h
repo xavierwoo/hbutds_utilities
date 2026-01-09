@@ -10,7 +10,7 @@ namespace hbutds{
     struct array{        
         T data[N];
         auto operator[](unsigned int) -> T&;
-        auto operator[](const unsigned int) const -> const T&;
+        auto operator[](unsigned int) const -> const T&;
         auto size() const -> unsigned int;
 
         struct iterator; // 迭代器类声明
