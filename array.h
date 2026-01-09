@@ -47,7 +47,7 @@ auto hbutds::array<T, N>::size() const -> unsigned int{
 
 template<typename T, unsigned int N>
 auto hbutds::array<T, N>::begin() -> iterator {
-    return iterator(static_cast<T*>(data));
+    return iterator(data);
 }
 
 template<typename T, unsigned int N>
