@@ -33,6 +33,9 @@ namespace hbutds{
         assert(*it == 3);
         ++it;
         assert(! (it != vec.end()));
+        it = vec.end();
+        --it;
+        assert(*it == 3);
         cout<<"\tIterator works!\n";
     }
 
@@ -40,6 +43,7 @@ namespace hbutds{
         vector<int> vec{1,2,3};
         assert(*(vec.begin() + 2) == 3);
         assert(*(vec.end() - 2) == 2);
+        assert(vec.end() - vec.begin() == 3);
         cout<<"\tIterator calculation works!\n";
     }
 
