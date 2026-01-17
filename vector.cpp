@@ -69,6 +69,13 @@ namespace hbutds{
     void test_vector_const(){
         const vector<int> vec{1,2,3};
         assert(vec[1] == 2);
+
+        auto it {vec.begin()};
+        assert(*it == 1);
+        ++it;
+        assert(*it == 2);
+        assert(it != vec.end());
+
         cout<<"\tConst works!\n";
     }
 

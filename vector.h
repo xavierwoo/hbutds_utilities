@@ -59,7 +59,12 @@ namespace hbutds{
     private:
         const T* _ptr;
         const_iterator(T* p): _ptr(p) {};
-        //TODO:
+    public:
+        auto operator++() -> const_iterator&; // 获得后继迭代器
+        auto operator*() const -> const T&; // 获得当前元素
+        auto operator!=(const const_iterator) const -> bool; // 不等判定
+
+        /*其他成员函数定义与vector::iterator类似*/
     };
 
     void vector_works();
@@ -129,6 +134,16 @@ auto hbutds::vector<T>::begin() -> iterator{
 template <typename T>
 auto hbutds::vector<T>::end() -> iterator{
     return iterator(_data + _size);
+}
+
+template <typename T>
+auto hbutds::vector<T>::begin() const -> const_iterator{
+    return const_iterator(_data);
+}
+
+template <typename T>
+auto hbutds::vector<T>::end() const -> const_iterator{
+    return const_iterator(_data + _size);
 }
 
 template <typename T>
@@ -205,6 +220,24 @@ template <typename T>
 auto hbutds::vector<T>::iterator::operator--() -> iterator&{
     --_ptr;
     return *this;
+}
+
+template <typename T>
+auto hbutds::vector<T>::const_iterator::operator++() -> const_iterator&{
+    ++_ptr;
+    return *this;
+}
+
+template <typename T>
+auto hbutds::vector<T>::const_iterator::operator*() const -> const T&{
+    return *_ptr;
+}
+
+template <typename T>
+auto hbutds::vector<T>::const_iterator::operator!=(
+        const const_iterator o
+) const -> bool{
+    return _ptr != o._ptr;
 }
 
 
