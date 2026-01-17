@@ -187,7 +187,9 @@ auto hbutds::vector<T>::erase(const iterator it) -> iterator{
     auto pos {it._ptr - _data}; // 计算删除位置pos
     assert(pos >= 0 && pos < _size); 
 
+    // 调用删除位置元素的析构函数
     _data[pos].~T();
+
     for(auto i{pos}; i<_size - 1; ++i){ // 从前往后依次移动元素
         _data[i] = _data[i+1];
     }
