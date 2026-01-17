@@ -66,6 +66,12 @@ namespace hbutds{
         cout<<"\tErase works!\n";
     }
 
+    void test_vector_const(){
+        const vector<int> vec{1,2,3};
+        assert(vec[1] == 2);
+        cout<<"\tConst works!\n";
+    }
+
     void vector_works(){
         cout<<"Testing hbutds::vector simple version:\n";   
         test_vector_reserve();
@@ -74,6 +80,7 @@ namespace hbutds{
         test_vector_iterator_calculation();
         test_vector_insert();
         test_vector_erase();
+        test_vector_const();
         cout<<"\thbutds::vector works!\n";
     }
 }

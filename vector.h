@@ -22,6 +22,7 @@ namespace hbutds{
         auto size() const -> unsigned int; // 获取元素个数
         auto capacity() const -> unsigned int; // 获取表容量
         auto operator[](unsigned int) -> T&; // 使用[]访问元素
+        auto operator[](unsigned int) const -> const T&;
 
         struct iterator;
         auto begin() -> iterator; // 返回首元素迭代器
@@ -84,6 +85,12 @@ hbutds::vector<T>::~vector(){
 
 template <typename T>
 auto hbutds::vector<T>::operator[](const unsigned int pos) -> T&{
+    assert(pos < _size);
+    return _data[pos];
+}
+
+template <typename T>
+auto hbutds::vector<T>::operator[](const unsigned int pos) const -> const T&{
     assert(pos < _size);
     return _data[pos];
 }
