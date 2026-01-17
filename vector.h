@@ -62,7 +62,7 @@ namespace hbutds{
     public:
         auto operator++() -> const_iterator&; // 获得后继迭代器
         auto operator*() const -> const T&; // 获得当前元素
-        auto operator!=(const const_iterator) const -> bool; // 不等判定
+        auto operator!=(const_iterator) const -> bool; // 不等判定
 
         /*其他成员函数定义与vector::iterator类似*/
     };
