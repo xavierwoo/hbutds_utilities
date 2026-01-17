@@ -47,7 +47,7 @@ namespace hbutds{
     public:
         auto operator++() -> iterator&; // 获得后继迭代器
         auto operator*() -> T&; // 获得指向的元素
-        auto operator!=(const iterator) const -> bool; // 不等判定
+        auto operator!=(iterator) const -> bool; // 不等判定
         auto operator+(int) const -> iterator; // 获得相对位置靠后的迭代器
         auto operator-(int) const -> iterator; // 获得相对位置靠前的迭代器
         auto operator-(iterator) const -> int; // 获得迭代器相对位置
@@ -187,6 +187,7 @@ auto hbutds::vector<T>::erase(const iterator it) -> iterator{
     auto pos {it._ptr - _data}; // 计算删除位置pos
     assert(pos >= 0 && pos < _size); 
 
+    _data[pos].~T();
     for(auto i{pos}; i<_size - 1; ++i){ // 从前往后依次移动元素
         _data[i] = _data[i+1];
     }
