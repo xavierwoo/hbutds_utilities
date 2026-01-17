@@ -94,6 +94,9 @@ void hbutds::vector<T>::reserve(const unsigned int new_c){
         new_data[i] = _data[i];
     }
 
+    // 所有元素都拷贝到了新的空间上。原空间上的元素需要依次析构
+    for(int i{0}; i<_size; ++i){_data[i].~T();}
+
     // 空间使用std::malloc申请，因此应使用std::free回收
     std::free(_data); 
     _data = new_data;
@@ -102,6 +105,10 @@ void hbutds::vector<T>::reserve(const unsigned int new_c){
 
 template <typename T>
 hbutds::vector<T>::~vector(){
+
+    //对每一个元素进行析构
+    for(int i{0}; i<_size; ++i){_data[i].~T();}
+
     // 空间使用std::malloc申请，因此应使用std::free回收
     std::free(_data);
 }
