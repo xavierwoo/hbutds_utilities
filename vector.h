@@ -31,6 +31,10 @@ namespace hbutds{
         auto insert(iterator, const T&) -> iterator; // 插入元素
         void push_back(const T&); // 在尾部插入元素
         auto erase(iterator) -> iterator; // 删除元素
+
+        struct const_iterator;
+        auto begin() const -> const_iterator; //返回首元素的常迭代器
+        auto end() const -> const_iterator; //返回终止位的常迭代器
     };
 
     template <typename T>
@@ -38,7 +42,7 @@ namespace hbutds{
         friend vector;
     private:
         T* _ptr; // 指向元素的指针
-        iterator(T* p):_ptr(p){}; // 设置构造函数私有，防止私开迭代器
+        iterator(T* p): _ptr(p) {}; // 设置构造函数私有，防止私开迭代器
     public:
         auto operator++() -> iterator&; // 获得后继迭代器
         auto operator*() -> T&; // 获得指向的元素
@@ -47,6 +51,15 @@ namespace hbutds{
         auto operator-(int) const -> iterator; // 获得相对位置靠前的迭代器
         auto operator-(iterator) const -> int; // 获得迭代器相对位置
         auto operator--() -> iterator&; // 获得前序迭代器
+    };
+
+    template <typename T>
+    struct vector<T>::const_iterator{
+        friend vector;
+    private:
+        const T* _ptr;
+        const_iterator(T* p): _ptr(p) {};
+        //TODO:
     };
 
     void vector_works();
