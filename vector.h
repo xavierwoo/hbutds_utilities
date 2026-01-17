@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <initializer_list>
+#include <cstdlib>
 
 namespace hbutds{
 
@@ -84,21 +85,25 @@ auto hbutds::vector<T>::capacity() const -> unsigned int{
 template <typename T>
 void hbutds::vector<T>::reserve(const unsigned int new_c){
     assert(new_c > _capacity);
-    auto new_data {new T[new_c]}; // 申请新内存空间
+
+    // 使用malloc申请空间，不会调用构造函数
+    auto new_data {static_cast<T*>(std::malloc(sizeof(T) * new_c))}; 
 
     // 依次将数据元素拷贝到新内存空间
     for (int i{0}; i<_size; ++i){
         new_data[i] = _data[i];
     }
 
-    delete[] _data; // 删除原内存空间
+    // 空间使用std::malloc申请，因此应使用std::free回收
+    std::free(_data); 
     _data = new_data;
     _capacity = new_c;
 }
 
 template <typename T>
 hbutds::vector<T>::~vector(){
-    delete[] _data;
+    // 空间使用std::malloc申请，因此应使用std::free回收
+    std::free(_data);
 }
 
 template <typename T>
