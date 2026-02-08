@@ -91,7 +91,7 @@ void hbutds::vector<T>::reserve(const unsigned int new_c){
 
     // 依次将数据元素拷贝到新内存空间
     for (int i{0}; i<_size; ++i){
-        new_data[i] = _data[i];
+        new (new_data + i) T(_data[i]);
     }
 
     // 所有元素都拷贝到了新的空间上。原空间上的元素需要依次析构
