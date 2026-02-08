@@ -133,7 +133,8 @@ hbutds::vector<T>::vector(const std::initializer_list<T>& l){
     // 依次将初始化列表中的元素拷贝到当前表中
     unsigned int i{0};
     for(auto it{l.begin()}; it!=l.end(); ++i, ++it){
-        _data[i] = *it;
+        // 使用placement new 而不是=操作符，防止悬挂指针
+        new (_data + i) T(*it);
     }
     _size = l.size();
 }
@@ -168,8 +169,11 @@ auto hbutds::vector<T>::insert(const iterator it, const T& new_e) -> iterator{
 
     ++_size;
 
-    // 从后往前依次移动元素
-    for(auto i{_size - 1}; i>pos; --i){ 
+    // 将最后一个元素向后复制
+    new (_data + _size  - 1) T(_data[_size - 2]);
+
+    // 从后往前依次复制剩下的元素
+    for(auto i{_size - 2}; i>pos; --i){ 
         _data[i] = _data[i-1];
     }
     _data[pos] = new_e; // 将新元素放在空出的位置上
