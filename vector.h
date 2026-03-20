@@ -4,6 +4,7 @@
 #include <cassert>
 #include <initializer_list>
 #include <cstdlib>
+#include <utility>
 
 namespace hbutds{
 
@@ -91,7 +92,7 @@ void hbutds::vector<T>::reserve(const unsigned int new_c){
 
     // 依次将数据元素拷贝到新内存空间
     for (int i{0}; i<_size; ++i){
-        new (new_data + i) T(_data[i]);
+        new (new_data + i) T(std::move(_data[i]));
     }
 
     // 所有元素都拷贝到了新的空间上。原空间上的元素需要依次析构
@@ -170,11 +171,11 @@ auto hbutds::vector<T>::insert(const iterator it, const T& new_e) -> iterator{
     ++_size;
 
     // 将最后一个元素向后复制
-    new (_data + _size  - 1) T(_data[_size - 2]);
+    new (_data + _size  - 1) T(std::move(_data[_size - 2]));
 
     // 从后往前依次复制剩下的元素
     for(auto i{_size - 2}; i>pos; --i){ 
-        _data[i] = _data[i-1];
+        _data[i] = std::move(_data[i-1]);
     }
     _data[pos] = new_e; // 将新元素放在空出的位置上
     
@@ -192,7 +193,7 @@ auto hbutds::vector<T>::erase(const iterator it) -> iterator{
     assert(pos >= 0 && pos < _size); 
 
     for(auto i{pos}; i<_size - 1; ++i){ // 从前往后依次移动元素
-        _data[i] = _data[i+1];
+        _data[i] = std::move(_data[i+1]);
     }
 
     // 调用最后一个元素的析构函数
