@@ -20,6 +20,9 @@ namespace hbutds{
         ~vector(); // 析构函数
         vector(const std::initializer_list<T>&); // 初始化列表构造函数
 
+        vector(const vector&); //拷贝构造函数
+        auto operator=(const vector&) -> vector&; //赋值操作符
+
         void reserve(unsigned int); // 申请容量
         auto size() const -> unsigned int; // 获取元素个数
         auto capacity() const -> unsigned int; // 获取表容量
@@ -261,5 +264,23 @@ auto hbutds::vector<T>::const_iterator::operator!=(
     return _ptr != o._ptr;
 }
 
+template <typename T>
+hbutds::vector<T>::vector(const vector& o){
+    reserve(o.size());
+    for(auto e : o){
+        push_back(e);
+    }
+}
+
+template <typename T>
+auto hbutds::vector<T>::operator=(const vector& o) -> vector& {
+
+    // 删除原有元素
+    for(int i{0}; i<_size; ++i) { _data[i].~T(); } 
+    _size == 0;
+    if(_capacity < o.size()) {  reserve(o.size()); };
+
+    return *this;
+}
 
 #endif
