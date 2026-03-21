@@ -170,12 +170,14 @@ auto hbutds::vector<T>::insert(const iterator it, const T& new_e) -> iterator{
 
     ++_size;
 
-    // 将最后一个元素向后复制
-    new (_data + _size  - 1) T(std::move(_data[_size - 2]));
+    if (pos < _size - 1){ // 插入位置不是末尾时需要移动元素
+        // 将最后一个元素向后复制
+        new (_data + _size  - 1) T(std::move(_data[_size - 2]));
 
-    // 从后往前依次复制剩下的元素
-    for(auto i{_size - 2}; i>pos; --i){ 
-        _data[i] = std::move(_data[i-1]);
+        // 从后往前依次复制剩下的元素
+        for(auto i{_size - 2}; i>pos; --i){ 
+            _data[i] = std::move(_data[i-1]);
+        }
     }
     _data[pos] = new_e; // 将新元素放在空出的位置上
     
