@@ -269,7 +269,7 @@ auto hbutds::vector<T>::const_iterator::operator!=(
 template <typename T>
 hbutds::vector<T>::vector(const vector& o){
     reserve(o.size());
-    for(auto e : o){
+    for(auto& e : o){
         push_back(e);
     }
 }
@@ -279,8 +279,13 @@ auto hbutds::vector<T>::operator=(const vector& o) -> vector& {
 
     // 删除原有元素
     for(int i{0}; i<_size; ++i) { _data[i].~T(); } 
-    _size == 0;
+    _size = 0;
+
+    //拷贝o中的所有元素
     if(_capacity < o.size()) {  reserve(o.size()); };
+    for(auto& e : o){
+        push_back(e);
+    }
 
     return *this;
 }
