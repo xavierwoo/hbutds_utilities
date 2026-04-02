@@ -23,6 +23,9 @@ namespace hbutds{
         vector(const vector&); //拷贝构造函数
         auto operator=(const vector&) -> vector&; //赋值操作符
 
+        vector(vector&&); //移动拷贝构造函数
+        auto operator=(vector&&) -> vector&; //移动赋值操作符
+
         void reserve(unsigned int); // 申请容量
         auto size() const -> unsigned int; // 获取元素个数
         auto capacity() const -> unsigned int; // 获取表容量
@@ -286,6 +289,38 @@ auto hbutds::vector<T>::operator=(const vector& o) -> vector& {
     for(auto& e : o){
         push_back(e);
     }
+
+    return *this;
+}
+
+template <typename T>
+hbutds::vector<T>::vector(vector&& o){
+    // 夺取被拷贝对象 o 的元素
+    _size = o._size;
+    _capacity = o._capacity;
+    _data = o._data;
+
+    // 将被拷贝对象“清空”
+    o._size = 0;
+    o._capacity = 0;
+    o._data = nullptr;
+}
+
+template <typename T>
+auto hbutds::vector<T>::operator=(vector&& o) -> vector& {
+    // 删除原有元素
+    for(int i{0}; i<_size; ++i) { _data[i].~T(); } 
+    std::free(_data);
+
+    // 夺取被拷贝对象 o 的元素
+    _size = o._size;
+    _capacity = o._capacity;
+    _data = o._data;
+
+    // 将被拷贝对象“清空”
+    o._size = 0;
+    o._capacity = 0;
+    o._data = nullptr;
 
     return *this;
 }
